@@ -19,6 +19,24 @@ PROJECT_ROOT
 ```
 
 
+## How to **compile and execute** the `MAIN PROGRAM` with this templates?
+```sh
+g++ -Iinclude -o src/*.cpp -o bin/main.out && ./bin/main.out
+```
+
+### with the test
+```sh
+# compile main program
+g++ -Iinclude src/*.cpp -o bin/main.out
+
+# compile test program
+g++ -Iinclude test/test_HelloWorld.cpp src/HelloWorld.cpp -o bin/test.out
+
+# run test program
+./bin/test.out
+```
+
+
 ### `bin/`
 
 This directory contains the compiled binary file of the project.
@@ -32,7 +50,6 @@ This directory contains the header files of the project.
 #ifndef HELLOWORLD_H
 #define HELLOWORLD_H
 
-// function declaration
 void helloWorld();
 
 #endif
@@ -47,9 +64,7 @@ This directory contains the source files of the project.
 #include "HelloWorld.h"
 #include <iostream>
 
-// function definition
 void helloWorld() {
-    // print "Hello, World!" to console
     std::cout << "Hello, World!" << std::endl;
 }
 ```
@@ -58,9 +73,7 @@ void helloWorld() {
 ```cpp
 #include "HelloWorld.h"
 
-// main function
 int main() {
-    // call the helloWorld function
     helloWorld();
     return 0;
 }
@@ -72,7 +85,6 @@ This directory contains the test files of the project.
 
 #### `test_HelloWorld.cpp`
 ```cpp
-// include necessary headers for testing
 #include <iostream>
 #include <sstream> 
 #include "HelloWorld.h"
@@ -99,16 +111,9 @@ void testHelloWorld() {
     }
 }
 
-// main function for running tests
 int main() {
-    // run the test function
     testHelloWorld();
 
     return 0;
 }
-```
-
-## How to compile with this templates?
-```sh
-g++ -Iinclude -o src/*.cpp -o bin/main.out && ./bin/main.out
 ```
