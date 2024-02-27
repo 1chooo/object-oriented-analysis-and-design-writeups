@@ -159,6 +159,53 @@ delete[] myBills;   // chapter11() will also release the memory :-)
 ```
 
 
+### (UNKNOWN) Copy constructor and `=` operator
+
+```cpp
+#include <iostream>
+using namespace std;
+class Table
+{
+    char *p;
+    int sz;
+
+public:
+    Table(int s = 15)
+    {
+        p = new char[100];
+        cout << "constructor" << endl;
+    }
+    ~Table()
+    {
+        delete[] p;
+        cout << "destructor" << endl;
+    }
+};
+void h()
+{
+    Table t1;
+    Table t2 = t1;
+    Table t3;
+    t3 = t2;
+}
+int main()
+{
+    h();
+
+    return 0;
+}
+```
+
+- How many times the default constructor is called? 請問Table預設的建構式被呼叫了幾次？
+
+- How many times the default destructor is called ? (Table 的解構式被呼叫了幾次？)
+
+- What is the final output?
+
+
+#### 絕大部分的情況下「`copy`」 operator 與「`=`」 operator 有很大的不同
+
+根本的原因: `copy` operator 會初始化一塊未經初始化的記憶體，而 `=` operator 必須妥善處理一個已經建構好的的物件
 
 
 [^1]: [系统调用与内存管理 (`sbrk、brk、mmap、munmap`)](https://blog.csdn.net/Apollon_krj/article/details/54565768)
