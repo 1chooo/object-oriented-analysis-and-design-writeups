@@ -1,4 +1,4 @@
-# Object Oriented Programming Writeups
+# Object Oriented Analysis and Design Writeups
 
 > 2024-Spring-OOAD  
 >
@@ -57,9 +57,11 @@ private:
 
 ### Materials
 
-| Week | Topic  | Code |
-| ---- | ------ | ---- |
-| 1    | [Software Engineering Basics](./00_software_engineering_basics/), [Classes and Object]((./01_classes_and_object/README.md)) | [`Point`](./01_classes_and_object/01_Point/), [`Dog`](./01_classes_and_object/02_Dog/), [`Dog` in `C`](./01_classes_and_object/03_DogC/), [`Constructor` and `Deconstructor`](./01_classes_and_object/04_ConstructorDeconstructor/), [`Car`](./01_classes_and_object/05_CarStack/), [`Car` in `Heap`](./01_classes_and_object/06_CarHeap/), [`Cat`](./01_classes_and_object/07_Cat/), [`Employee`](./01_classes_and_object/08_Employee/), [`Table`](./01_classes_and_object/09_Table/) |
+| Week | Topic  | Code | Homework |
+| ---- | ------ | ---- | -------- |
+| 1    | [Software Engineering Basics](./materials/00_software_engineering_basics/), [Classes and Object]((./materials/01_classes_and_object/README.md)) | [`Point`](./materials/01_classes_and_object/01_Point/), [`Dog`](./materials/01_classes_and_object/02_Dog/), [`Dog in C`](./materials/01_classes_and_object/03_DogC/), [`Constructor and Deconstructor`](./materials/01_classes_and_object/04_ConstructorDeconstructor/), [`Car`](./materials/01_classes_and_object/05_CarStack/), [`Car in Heap`](./materials/01_classes_and_object/06_CarHeap/), [`Cat`](./materials/01_classes_and_object/07_Cat/), [`Employee`](./materials/01_classes_and_object/08_Employee/), [`Table`](./materials/01_classes_and_object/09_Table/) |  |
+<!-- |     |  |  |  |
+|     |  |  |  | -->
 
 
 > eCloudValley Cloud Developer Intern </br>
