@@ -178,3 +178,131 @@ in user system stack, it looks like this:
 > 每一個 subclass 要自行負責建構與清除自己的特異化的的部分
 
 In the previous example, all the classes used default constructors. That is, the constructors took no arguments. Suppose that there were constructors that took arguments. How would this be handled? Here's a simple example. 
+
+
+## Overriding and Overloading
+
+```cpp
+class Pet {
+  public:
+    // Constructors, Destructors
+    Pet() : weight(1), food("Pet Chow") {}
+    Pet(int w) : weight(w), food("Pet Chow") {}
+    Pet(int w, string f) : weight(w), food(f) {}
+    ~Pet() {}
+
+    ...
+};
+
+class Rat : public Pet {
+  public:
+    Rat() {}
+    Rat(int w) : Pet(w) {}
+    Rat(int w, string f) : Pet(w, f) {}
+    ~Rat() {}
+
+    ...
+};
+
+class Cat : public Pet {
+  public:
+    Cat() : numberToes(5) {}
+    Cat(int w) : Pet(w), numberToes(5) {}
+    Cat(int w, string f) : Pet(w, f), numberToes(5) {}
+    Cat(int w, string f, int toes) : Pet(w, f), numberToes(toes) {}
+    ~Cat() {}
+
+    ...
+};
+```
+
+In `C++` there is the writing about `Class : arguments { }` to call the base class constructor with arguments. Then it will use the base class constructor with the same arguments.
+
+- `Rat` and `Cat` constructors that take `arguments`, which are in turn passed to the appropriate `Pet` constructor. The base class, `Pet`, constructor is added to the **member initialization list** of the derived class constructors. 
+- Also notice that for the derived class (`Rat` and `Cat`) default constructors, the `Pet` default constructor does not need to be explicitly called. 
+
+
+### A complete list of invoked constructors
+```cpp
+Rat charles(25,"Rat Chow");
+Pet(int w, string f)
+Rat(int w, string f)
+
+Rat john;
+Pet()
+Rat()
+
+Cat fluffy(10,"rats");
+Pet(int w, string f)
+Cat(int w, string f)
+
+Cat buffy(10,"fish",6);
+Pet(int w, string f)
+Cat(int w, string f, int toes) 
+```
+
+### Overriding Method
+
+- A **derived class (subclass)** can use the methods of its **base class(es)**, or it can **override** them. 
+- The method in the derived class must have the same **signature** and return type as the base class method to override. 
+- The signature is number and type of arguments and the constantness (const, non-const) of the method. When an object of the base class is used, the base class method is called. 
+- Note that overriding is different from **overloading**. With overloading, many methods of the same name with different signatures (different number and/or types of arguments) are created. 
+- With overriding, a subclass implements its own version of a base class method. The subclass can selectively use some base class methods as they are, and override others. 
+
+### What is Overriding?
+
+```cpp
+class Pet {
+  void dosSomething(int x, string b);
+}
+
+class Cat : Pet {
+  void dosSomething(int x, string b);
+}
+```
+
+### What is Overloading?
+
+```cpp
+class XXX {
+  void dosSomething(int x, string b);
+  void dosSomething(int x, string b, char c);
+}
+```
+
+> [!NOTE]
+> Overloading V.S. Polymorphism
+
+
+- remember that the `return type` and `signature` of the subclass method must match the base class method exactly **to override**. 
+
+
+> [!WARNING]
+> Another important point is that if the base class had overloaded a particular method, **overriding a single one of the overloads will hide the rest.**
+
+For instance, suppose the Pet class had defined several speak methods.
+
+```cpp
+void speak();
+void speak(string s);
+void speak(string s, int loudness);
+
+Cat::void speak();
+```
+
+If the subclass, `Cat`, defined only `void speak();`
+
+Then `speak()` would be **overridden**. `speak(string s)` and `speak(string s, int loudness)` would **be hidden**. This means that if we had a `cat` object, `fluffy`, we could call: 
+
+```cpp
+Cat fluffy;
+
+fluffy.speak();
+// But the following would cause compilation errors.
+fluffy.speak("Hello");
+fluffy.speak("Hello", 10);
+```
+
+Generally, if you override an overloaded base class method you should either override every one of the overloads, or carefully consider why you are not.It is a safety protocol enforced by compiler to prevent you from doing such error
+
+
