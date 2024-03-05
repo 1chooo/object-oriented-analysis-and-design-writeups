@@ -114,8 +114,8 @@ void swap(char &a, char &b) {
 }
 ```
 
+object: 
 ```cpp
-// object 
 main() {
     A x = 10;
     A y = 5;
