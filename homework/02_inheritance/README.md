@@ -37,6 +37,19 @@ class C extends B {
 }
 ```
 
+**My Ans:**
+
+```shell
+foo from B
+bar from C
+```
+
+**Explanation:**
+
+- `C c = new C();` creates a new instance of class `C`.
+- `c.foo();` calls the `foo` method. Since `C` extends `B` and `B` overrides the `foo` method from `A`, `"foo from B"` is printed.
+- `c.bar();` calls the `bar` method. Since `C` overrides the `bar` method from `A`, `"bar from C"` is printed.
+
 ### Lab 02
 
 
