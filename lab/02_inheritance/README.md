@@ -60,6 +60,11 @@ student :: student(int age, int height, int studentID) : person(age, height)  {
 }
 ```
 
+```cpp
+student :: student(int age, int height, int studentID) : person(age, height), _studentID(studentID)  {
+}
+```
+
 person 會變成 argument 給 student
 
 
