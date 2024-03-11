@@ -55,7 +55,7 @@ class student: public person {
 **My Ans:**
 
 ```cpp
-student :: student(int age, int height, int studentID) person(age, height)  {
+student :: student(int age, int height, int studentID) : person(age, height)  {
     int _studentID = studentID;
 }
 ```
