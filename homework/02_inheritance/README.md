@@ -73,6 +73,36 @@ class Employee {
 }
 ```
 
+**My Ans:**
+
+```java
+import java.util.ArrayList;
+
+public class EmployeeCensus {
+
+    private ArrayList<Employee> employees;
+
+    public EmployeeCensus() {
+        employees = new ArrayList<Employee>();
+    }
+    
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+
+    public void removeEmployee(Employee employee) {
+        employees.remove(employee);
+    }
+}
+
+class Employee {
+    // not important
+}
+```
+
+**Explanation:**
+不要去繼承 `ArrayList`，而是使用 `ArrayList` 作為 `EmployeeCensus` 的一個成員變數。
+
 ### Lab 03
 
 求下列 JAVA 程式的執行結果。
@@ -120,8 +150,8 @@ YYY
 ### Lab 04
 
 
-The following code is Java. There are some compilation errors in the code.
-How can you fix it to pass compilation?
+The following code is Java. There are some compilation errors in the code.   
+How can you fix it to pass compilation?  
 You can only change the code without deleting any lines of the code. 
 
 ```java
@@ -136,6 +166,19 @@ You can only change the code without deleting any lines of the code.
 14. }
 ```
 
+**My Ans:**
+
+```java
+1. class SuperMan{
+2.     private int a;
+3.     protected SuperMan(int a){this.a = a;}
+4. }
+...
+11. class SubMan extends SuperMan{
+12.     public SubMan(int a){super(a);}
+13.     public SubMan(){super(5);}
+14. }
+```
 
 ### Lab 16
 

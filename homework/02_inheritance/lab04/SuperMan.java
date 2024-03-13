@@ -1,9 +1,5 @@
 package lab04;
 
-public class Main {
-
-}
-
 class SuperMan {
     private int a;
 
@@ -20,6 +16,7 @@ class SubMan extends SuperMan {
     }
 
     public SubMan() {
-        this.a = 5;
+        // this.a = 5;
+        super(5);
     }
 }
