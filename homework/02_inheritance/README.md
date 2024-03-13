@@ -103,6 +103,20 @@ class Y extends X {
 }
 ```
 
+
+**My Ans:**
+
+```shell
+XXX
+YYY
+```
+
+**Explanation:**
+
+1. 首先建立一個 `X` 的物件 `x` 和 `Y` 的物件 `y`。
+2. 接著呼叫 `x` 的 `doSomething()`，由於 `x` 是 `X` 的物件，所以呼叫 `X` 的 `print` 方法，印出 `XXX`。
+3. 接著呼叫 `y` 的 `doSomething()`，由於 `Y` `override` 了 `X` 的 `doSomething()`，所以印出 `YYY`。
+
 ### Lab 04
 
 
@@ -133,6 +147,6 @@ OK, 現在你應該知道繼承不能被濫用。你也知道以下的程式碼�
 > [!TIP]
 > (此題會深刻思考題，比重等同其他題目的3倍) 請仔細回答。
 
-
+**My Ans:**
 
 
