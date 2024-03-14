@@ -1,6 +1,7 @@
 package lab04;
 
 class SuperMan {
+    @SuppressWarnings("unused")
     private int a;
 
     protected SuperMan(int a) {
