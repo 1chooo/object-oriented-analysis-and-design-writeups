@@ -13,6 +13,11 @@
     - [Lab 09](#lab-09)
     - [Lab 10](#lab-10)
   - [Homework](#homework)
+    - [Homework - Lab 04](#homework---lab-04)
+    - [Homework - Lab 11](#homework---lab-11)
+    - [Homework - Lab 14](#homework---lab-14)
+    - [Homework - Lab 15](#homework---lab-15)
+    - [Homework - Lab 16](#homework---lab-16)
 
 ## Course
 
@@ -37,8 +42,6 @@ class model: base_model {
 
 He explains that he is doing great in inheritance and polymorphism.What do you think? (請你給他洗臉一下)
 
-> **My Ans:**
-> 
 > ```cpp
 > model m = new model();
 > ```
@@ -54,8 +57,6 @@ He explains that he is doing great in inheritance and polymorphism.What do you t
 
 Why destructor in C++ must be declared as virtual?
 
-> **My Ans:**
-> 
 > 因為當我們繼承原本的 base class 的時候我們是用原本的記憶體繼續增加，因此當我們今天要 destructor 新繼承的 class 的時候，我們的 destructor 是要用掉新建立的記憶體
 
 
@@ -76,9 +77,6 @@ class Human {
 
 Please describe the pros and cons if you choose to do so. (本題分數為其它題目的 3 倍)
 
-
-> **My Ans:**
-> 
 > - profs: 很明確地可以做出變異化，且不用擔心突如其來的變異，並且可以提高重複使用！
 > - cons:  當我們今天 subclass 要再去新繼承下一個 subclass2 的時候，會被受限制，反而跟原本的 base class 會變得沒有意義
 
@@ -86,8 +84,6 @@ Please describe the pros and cons if you choose to do so. (本題分數為其它
 
 What is dynamic binding?
 
-> **My Ans:**
-> 
 > 我們今天在 class 的記憶體中，會有個 pointer  幫我們指向虛擬的函式表，當我們今天要用的資源在 dynmic 的地方時可以幫我們指過去使用
 
 
@@ -99,8 +95,6 @@ Please explain:
 2. linking binding
 3. loading time binding
 
-> **My Ans:**
-> 
 > 1. 在編譯的時候就確定要綁定哪一個 -> static
 > 2. 編譯的時候知道要使用的函示 address，透過只過去使用的編譯的時候就會知道
 > 3. 載入的時候，也就是開始運行時動態地去調用
@@ -111,7 +105,7 @@ Please explain:
 
 What is an indirect call in assembly? Please explain and give an example.
 
-> **My Ans:**   
+ 
 > 當我們今天要呼叫目標函數的時候，也就是 `CALL`
 > 
 > ```assembly
@@ -157,7 +151,7 @@ Typically, an integer is 4 bytes. What is the size of an object from base?
 Why?
 
 
-> **My Ans:**   
+ 
 > `16 bytes`
 > 
 > `int x, y` 總共 `8 bytes` 
@@ -171,7 +165,7 @@ Why?
 
 物件導向最重要的核心意義就是將系統中 _____________ 的部分包裝到子類別中，然後利用 ______________將系統中的 high-level components (core components) 寫成與子類別 _______________的程式碼。所以當未來進行擴充或修改時， high-level components (core components) 可以幾乎都不用打開來修改。
 
-> **My Ans:**
+
 > 
 > 1. 未來或者頻繁變異、擴充
 > 2. 多型 Polymorphism
@@ -184,9 +178,176 @@ Why?
 
 ## Homework
 
+### Homework - Lab 04
+
+What is the output of the program!! And please explain what is going on.
+
+```cpp
+#include <iostream>
+
+class Base {
+  public:
+    virtual void foo() const {
+        std::cout << "A's foo!" << std::endl;
+    }
+};
+
+class Derived : public Base {
+  public:
+    virtual void foo() const {
+        std::cout << "B's foo!" << std::endl;
+    }
+};
+
+int main() {
+    Base *o1 = new Base();
+    Base *o2 = new Derived();
+    Derived *o3 = new Derived();
+
+    o1->foo();
+    o2->foo();
+    o3->foo();
+
+    return 0;
+}
+```
 
 
+### Homework - Lab 11
 
+請以多型完成下列程式碼，演奏弦樂四重奏。
+
+```java
+public class V {
+   public static void main(String[] args) {
+       // 弦樂四重奏
+       Instrument[] stringQuartet = { new Violin(), new Violin(), new Viola(), new Cello() };
+       // play the music for me
+       // implement HERE !!!
+   }
+}
+
+abstract class Instrument {
+   abstract public void play();
+}
+
+// 小提琴
+class Violin extends Instrument {
+   @Override
+   public void play() {
+       System.out.println("旋律");
+   }
+}
+
+// 中提琴
+class Viola extends Instrument {
+   @Override
+   public void play() {
+       System.out.println("合旋");
+
+   }
+}
+
+// 大提琴
+class Cello extends Instrument {
+   @Override
+   public void play() {
+       System.out.println("低音");
+
+   }
+}
+```
+
+### Homework - Lab 14
+
+Please implement (use polymorphism) the following code to make the result generate the same output.
+
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Base {
+public:
+    virtual void print() { cout << "Base" << endl; }
+    virtual ~Base() {}
+};
+
+int main(void) {
+    vector<Base*> bases = { new Base(), new A(), new B() };
+    for (Base* b : bases) {
+        b->print();
+    }
+
+    for (Base* b : bases) {
+        delete b;
+        b = nullptr;
+    }
+    bases.clear();
+}
+```
+
+| Graph | Output |
+| --- | --- |
+| ![](./lab14/lab14-graph.png) | ![](./lab14/lab14-output.png) |
+
+Please make inherit fit following class diagram.
+
+
+### Homework - Lab 15
+
+Modify the attachment by using polymorphism.
+
+```cpp
+#include <stdio.h>
+#include <assert.h>
+
+#define SIZE 3
+
+typedef enum {
+    Comic,
+    Novel,
+    Magazine
+} book_type;
+```
+
+### Homework - Lab 16
+
+Please write a main function (with polymorphism way) to make the result generate the same output.
+
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Animal {
+public:
+    virtual void speak() = 0;
+    virtual ~Animal() {}
+};
+
+class Cat : public Animal {
+public:
+    void speak() {
+        cout << "meow" << endl;
+    }
+};
+
+class Cow : public Animal {
+public:
+    void speak() {
+        cout << "moo" << endl;
+    }
+};
+```
+
+```bash
+$ ./animal.exe
+
+meow
+moo
+```
 
 
 [^1]: [Difference between direct and indirect function() calls](https://softwareengineering.stackexchange.com/questions/401110/difference-between-direct-and-indirect-function-calls)
