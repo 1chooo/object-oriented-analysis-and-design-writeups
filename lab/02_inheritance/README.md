@@ -131,7 +131,7 @@ class XXX {
 
 ## Take Home
 
-### Lab 01
+### Homework - Lab 01
 
 求下列 JAVA 程式的執行結果。
 
@@ -181,7 +181,7 @@ bar from C
 - `c.foo();` calls the `foo` method. Since `C` extends `B` and `B` overrides the `foo` method from `A`, `"foo from B"` is printed.
 - `c.bar();` calls the `bar` method. Since `C` overrides the `bar` method from `A`, `"bar from C"` is printed.
 
-### Lab 02
+### Homework - Lab 02
 
 
 Fix the following program, and make it OO.
@@ -234,7 +234,7 @@ class Employee {
 **Explanation:**
 不要去繼承 `ArrayList`，而是使用 `ArrayList` 作為 `EmployeeCensus` 的一個成員變數。
 
-### Lab 03
+### Homework - Lab 03
 
 求下列 JAVA 程式的執行結果。
 
@@ -278,7 +278,7 @@ YYY
 2. 接著呼叫 `x` 的 `doSomething()`，由於 `x` 是 `X` 的物件，所以呼叫 `X` 的 `print` 方法，印出 `XXX`。
 3. 接著呼叫 `y` 的 `doSomething()`，由於 `Y` `override` 了 `X` 的 `doSomething()`，所以印出 `YYY`。
 
-### Lab 04
+### Homework - Lab 04
 
 
 The following code is Java. There are some compilation errors in the code.   
@@ -311,7 +311,7 @@ You can only change the code without deleting any lines of the code.
 14. }
 ```
 
-### Lab 16
+### Homework - Lab 16
 
 OK, 現在你應該知道繼承不能被濫用。你也知道以下的程式碼該怎麼改。  
 不過其實一直還有一個更神秘的問題，那就是以下濫用繼承的程式碼為什麼不好，它會有什麼問題？也就是說，你可能以前繼承就是這樣寫，但是你好像也沒有發生過什麼問題不是嗎？
@@ -328,7 +328,3 @@ OK, 現在你應該知道繼承不能被濫用。你也知道以下的程式碼�
 那就是 base class 的 memory 會無意被我們操作到。
 
 在上述的案例中，我們其實可以就把 ListContainer 變成 EmployeeCensus 裡的成員就好，如此我們不需要動到 base class 的 memory，也可以達到原本需要的功能實現，避免繼承的濫用！
-
-
-
-
