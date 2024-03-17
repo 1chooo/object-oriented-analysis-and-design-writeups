@@ -193,3 +193,220 @@ When passed a pointer of type `Pet` holding the address of a `Rat` object, we ge
 
 > [!NOTE]
 > Polymorphism is seen when a pointer or reference of a base class points to a subclass object. Methods must be declared as `virtual` for polymorphism to work.
+
+
+
+## Core Concept of Object-Oriented Programming
+
+> [!IMPORTANT]
+> Object-oriented programming is about pushing the core parts outward and encapsulating the changing parts, such as future extensions and additions.
+
+**Extension part:** In the future, we can add the dog, elephant, and other animals. 
+
+```cpp
+class Pet {
+  public: // Constructors, Destructors
+    Pet() {}
+    virtual ~Pet() {}
+    // General methods
+    virtual void speak();
+    void breath() { cout << "Gasp" << endl; }
+};
+
+void Pet::speak() { cout << "Growl" << endl; }
+
+class Rat : public Pet {
+  public:
+    Rat() {}
+    ~Rat() {}
+    void speak();
+};
+
+void Rat::speak() { cout << "Rat noise" << endl; }
+
+class Cat : public Pet {
+  public:
+    Cat() {}
+    ~Cat() {}
+    void speak();
+};
+
+void Cat::speak() { cout << "Meow" << endl; }
+
+void chorus(Pet pet, Pet *petPtr, Pet &petRef) {
+    pet.speak();
+    petPtr->speak();
+    petRef.speak();
+}
+```
+
+**UI Part:** This is the part that we will make change constantly. 
+
+```cpp
+while (!quit && i < MAXCAPACITYINROOM) {
+    cout << "Enter (0) to quit" << endl;
+    cout << "Enter (1) for Rat" << endl;
+    cout << "Enter (2) for Cat" << endl;
+    cin >> choice;
+    if (choice == 0) {
+        quit = 1;
+    } else if (choice == 1) {
+        house[i++] = new Rat();
+    } else if (choice == 2) {
+        house[i++] = new Cat();
+    } else {
+        cout << "Invalid Choice, Reenter" << endl;
+    }
+}
+```
+
+**Core Code Part:** In the future, this is the part that we will keep in the orginal program. 
+
+```cpp
+while() {
+    ...
+    else {
+        cout << "Invalid Choice, Reenter" << endl;
+    }
+}
+totalNumber = i;
+for (i = 0; i < totalNumber; i++) {
+    house[i]->speak();
+}
+```
+
+We chosen an array of pointers of the base class type, "Pet", to store my pets as I enter them into the program. Because We do not know at compile time the type of each subclass object (Rat or Cat) and need to be able to store either. 
+
+> [!IMPORTANT]
+> We need each to behave as the subclass it is. We want **polymorphism**. That is, I want each object to have the appropriate behavior according to its subclass. 
+
+> [!TIP]
+> An array of objects would not work. Remember, polymorphism is supported through pointers and references. 
+
+## OOP (The Four Basic Elements)
+
+- Object and Class (Data and Methods)
+- Inheritance (Base and Derived Class)
+- Encapsulation (`public`, `protected`, `private`)
+- Polymorphism (Dynamic Binding)
+
+In object-oriented languages, polymorphism is a natural result of combining inheritance and message passing.
+
+> [!IMPORTANT] 
+> What is polymorphism?
+> - Polymorphism refers to the ability of a function to automatically perform different operations and functionalities based on the type or object it is dealing with.
+> Unlike overloading, polymorphism allows **the same block of code** to be used to operate on different data types or objects.
+
+### Making PolyMorphism without OOP
+
+```c
+Color newColor;     // Currecnt drawing color
+
+void main() {
+    int Cont = 1;   // Continue flag
+    int Event = 0;  // Event code
+
+    if (Initial()) {    // Enter the drawing mode and other settings
+        while (Cont) {
+            Event = GetEvent(); // Get the event code
+            switch (Event) {    // Determine the event code
+                case Circle:
+                case Pie:
+                case Ellipse:
+                case EllipsePie:
+                    gCircle(Event, NowColor); // if circle function related, call gCircle function
+                    break;
+                case Rect:
+                case RoundRect:
+                case Box:
+                    gRect(Event, NowColor); // if rectangle function related, call gRect function
+                    break;
+                ...
+
+                case Exit:
+                    Cont = !gExit();    // if exit function related, call gExit function
+                    break;
+            }
+        End();      // Release memory and exit the drawing mode
+        }
+    }
+}
+```
+
+Switch Patterns often appear in several places in the program. This is a sign that the program is not well designed.
+
+If we modify one of the functions, we need to modify every switch statement in the program which means we need to realize the whole detail of the program.
+
+### How we can make it better?
+
+```
++----------+----------+----------+----------+
+| Module 1 | Module 2 | Module 3 | Module 4 |  (Here We don't need to change !)
++----------+----------+----------+----------+
+|               Pet Interface               |
++-------------------------------------------+ 
+                    ^
+                    |
+         Dog, Rat, Cat, Elephant, ...
+```
+
+### function pointer
+
+define the function to store the pointer of the function
+
+```c
+int (*f)(int, int);
+int (*f[])(int,int);
+```
+
+```c
+Color newColor;
+int Cont = 1;
+
+void main() {
+    int E = 0;
+    struct {
+        int (*Draw) (void (*)(), void (*)());
+        void (*Move);
+        void (*Act);
+    } F[] = {
+        {gRegion, XorCircle, PutCircle},
+        {gRegion, XorCircle, PutPie},
+        {gRegion, XorEllipse, PutEllipse},
+        {gRegion, XorEllipse, PutEllipsePie},
+        {gRegion, XorRect, PutRect},
+        {gRegion, XorLine, PutBar},
+        {gExit, NULL, NULL}
+    };
+
+    if (Initial()) {
+        while (Cont) {
+            E = GetEvent();
+            (*F[E].Draw)(F[E].Move, F[E].Act);
+        }
+        End();
+    }
+}
+```
+
+> [!NOTE]
+> `int (*Draw) (void (*)(), void (*)());` is a pointer to a function that takes two function pointers as arguments and returns an integer.
+
+```c
+if (Initial()) {
+      while (Cont) {
+          E = GetEvent();
+          (*F[E].Draw)(F[E].Move, F[E].Act);
+      }
+      End();
+  }
+```
+
+The above code is not related to extense the function of the program.
+
+
+> [!IMPORTANT]
+> Inheritance along cannot implement polymorphism.
+> 
+> -> We need a new mechanism **called dynamic binding** to make polymorphism to work.
+
