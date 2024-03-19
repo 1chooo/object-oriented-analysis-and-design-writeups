@@ -28,7 +28,7 @@ g++ -Iinclude -o src/*.cpp -o bin/main.out && ./bin/main.out
 ## Genuine Understanding V.S. Superficial Knowledge.
 
 ```cpp
-class EmployeeCensus: public Listcontainer {
+class EmployeeCensus: public ListContainer {
 
 public:
     ...
@@ -49,19 +49,20 @@ private:
 - 嚴重思考題 (對比較重要，不搶答，給你滿滿的時間)
 
 > [!WARNING]
-> 喔! 你抄襲就 0 分，你給別人抄襲你就變成 50% 分數
-
+> 喔！你抄襲就 0 分，你給別人抄襲你就變成 50% 分數
 
 每一題公告之前會告知哪一種類型
 
 
 ## Materials
 
-| Week | Topic  | Code | Homework |
-| ---- | ------ | ---- | -------- |
-| 1    | [Software Engineering Basics](./materials/00_software_engineering_basics/), [Classes and Object]((./materials/01_classes_and_object/README.md)) | [`Point`](./materials/01_classes_and_object/01_Point/), [`Dog`](./materials/01_classes_and_object/02_Dog/), [`Dog in C`](./materials/01_classes_and_object/03_DogC/), [`Constructor and Deconstructor`](./materials/01_classes_and_object/04_ConstructorDeconstructor/), [`Car`](./materials/01_classes_and_object/05_CarStack/), [`Car in Heap`](./materials/01_classes_and_object/06_CarHeap/), [`Cat`](./materials/01_classes_and_object/07_Cat/), [`Employee`](./materials/01_classes_and_object/08_Employee/), [`Table`](./materials/01_classes_and_object/09_Table/) |  |
-<!-- |     |  |  |  |
-|     |  |  |  | -->
+- [Software Engineering Basics](./materials/00-software-engineering-basics/)
+- [Classes and Object](./materials/01-classes-and-object/)
+- [Pointer, Reference](./materials/01-5-pointer-reference/)
+- [Inheritance](./materials/02_inheritance/)
+- [Why You Should Not Abuse Inheritance Over Composition](./materials/02-6-why-you-should-not-abuse-inheritance-over-composition/)
+- [Polymorphism](./materials/03-polymorphism/)
+- [Multiple Inheritance](./materials/04-multiple-inheritance/)
 
 ## Collaboration Guidelines
 ### Forking this Repository:
