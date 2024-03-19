@@ -9,6 +9,15 @@
   - [Casting in C/C++](#casting-in-cc)
     - [Outputs](#outputs)
   - [Analysis of the Ambiguity](#analysis-of-the-ambiguity)
+    - [Solution 1: Casting Ambiguous Attributes or Methods](#solution-1-casting-ambiguous-attributes-or-methods)
+    - [Solution 2: Overwriting Ambiguous Attributes or Methods](#solution-2-overwriting-ambiguous-attributes-or-methods)
+    - [Another Case: JetCar](#another-case-jetcar)
+    - [Another Case: Storable](#another-case-storable)
+      - [Diamond-Shaped Inheritance](#diamond-shaped-inheritance)
+    - [Java Interface](#java-interface)
+      - [How to use Java interface?](#how-to-use-java-interface)
+      - [Discussion of Java Multiple Inheritance](#discussion-of-java-multiple-inheritance)
+      - [To simulate interface in C++](#to-simulate-interface-in-c)
 
 
 > [!IMPORTANT]
@@ -337,7 +346,7 @@ int main() {
 title: Relationship between Vehicle, Car, Jet, JetCar
 ---
 classDiagram
-    note "From 1chooo"
+    note "Author: 1chooo"
     Vehicle <|-- Car: Inheritance
     Vehicle <|-- Jet: Inheritance
     Car <|-- JetCar : Inheritance
@@ -384,4 +393,277 @@ However, how about the ambiguity?
 
 ## Analysis of the Ambiguity
 
+Ambiguity can happen when you use multiple inheritance
+
+### Solution 1: Casting Ambiguous Attributes or Methods
+
 ```cpp
+class task {
+    // ...
+    virtual debug_info *get_debug();
+};
+class Displayed {
+    // ...
+    virtual debug_info *get_debug();
+};
+class Satellite : public task, public displayed {
+    // ...
+};
+void print_debugging(Satellite *sp) {
+
+    debug_info *dip = sp->get_debug();              // wrong
+    debug_info *dip = sp->Task::get_debug();
+    debug_info *dip = sp->Displayed : get_debug();
+}
+```
+
+### Solution 2: Overwriting Ambiguous Attributes or Methods
+
+```cpp
+class Satellite : public Task, public Displayed {
+    // ...
+
+    // write a new function to merge the debugging messages from two sources
+    debuLinfo *get_debug() {
+        debug_info *dip1 = Task::get_debug();
+        debug_info *dip2 = Displayed::get_debug();
+        return dip->merge(dip2);
+    };
+};
+```
+
+### Another Case: JetCar
+
+```cpp
+class Link {
+    Link * next ;
+};
+class Task: public Link {
+     // using link to maintain a list of tasks
+};
+class Displayed: public Link {
+     // use link to maintain a list of displayed object
+};
+```
+
+```cpp
+void mess_with_links(Satellite *p) {
+    p->next = 0;                  // wrong
+    p->Link::next;                // wrong
+    p->Task::Link::next = 0;      // OK
+    p->Displayed::Link::next = 0; // OK
+}
+```
+
+### Another Case: Storable
+
+想像 storable 是一個能自檔案讀出自己、將自己寫回檔案的物件
+
+
+```cpp
+class Storable {
+  public:
+    virtual const char *get_file() = 0;
+    virtual void read() = 0;
+    virtual void write() = 0;
+    virtual ~Storable(){};
+};
+class Transmitter : public Storable {
+  public:
+    void write();
+    // ...
+};
+class Receiver : public Storable {
+  public:
+    void write();
+    // ...
+};
+class Radio : public Transmitter,
+              public Receiver {
+  public:
+    const char *get_file();
+    void read();
+    void write();
+    // ...
+};
+```
+
+```cpp
+void Radio ::write() {
+    Transmitter::write();
+    Receiver::write();
+    // begin to write something that is really related to radio
+}
+```
+
+> [!WARNING]
+> 當有 `Storable(const char *s);` 有這樣的改變，下面的 radio 繼承就會出問題，會有兩份基底，但是一個 radio 不可能存到兩份 file
+> ```cpp
+> class Storable {
+>   public:
+>     Storable(const char *s); // 每一個 storable 用一個 file 來記錄
+>     virtual const char *get_file() = 0;
+>     virtual void read() = 0;
+>     virtual void write() = 0;
+>     virtual ~Storable(){};
+> 
+>   private:
+>     const char *store;
+>     Storable(const Storable &);
+>     Storable &operator=(const Storable);
+> };
+> ```
+> 
+> ```cpp
+> class Radio : public Transmitter, public Receiver {
+>   public:
+>     //...
+> }
+> ```
+
+#### Diamond-Shaped Inheritance
+
+**`public virtual`** inheritance
+
+```cpp
+class transmitter : public virtual Storable {
+  public:
+    void write();
+};
+class Receiver::public virtual Storable {
+  public:
+    void write();
+};
+class Radio : public Transmitter, public Receiver {
+  public:
+    void write();
+};
+```
+
+```mermaid
+---
+title: Diamond-Shaped Inheritance
+---
+classDiagram
+    note "Author: 1chooo"
+    Receiver --> Storable
+    Transmitter --> Storable
+    Radio --> Transmitter
+    Radio --> Receiver
+```
+
+### Java Interface 
+
+- Java think ambiguity problem caused by multiple inheritance is too complicated.
+- Most C++ programmers have problems to understand
+- **Java prohibits multiple inheritance**
+- BUT, it introduce interface
+
+Suppose you already write a class
+
+```java
+Class myLinkedList extend LinkedList {
+    void appendTail(node o) ;
+    void appendHead(node o);
+    void appendMiddle(node left, node right);
+}
+```
+
+How do you make your `myLinkedList` be used as `Stack`, `Queue`
+
+```java
+Interface Stack {
+    item pop();
+    void push(o);
+};
+
+Interface Queue {
+    enqueue(o);
+    item dequeue();
+}
+```
+
+The above `Stack` in C++ has virtual functions for the objects in the `Stack`.
+
+```cpp
+class Stack {
+    virtual void push() = 0;
+    virtual void pop() = 0;
+};
+```
+
+<code>Class myLinkedList extend LinkedList <b>implement</b> <i>Stack, Queue</i></code>
+
+
+```java
+Class myLinkedList extend LinkedList implement Stack, Queue
+    void appendTail(node o) ;
+    void appendHead(node o);
+    void appendMiddle(node left, node right);
+    pop() { ... }
+    push() { ... }
+    enqueue() { ... }
+    dequeue() { ... }
+}
+```
+
+#### How to use Java interface?
+
+Somewhere in initialization code
+
+```java
+Stack s = new myLinkedList();
+```
+
+Somewhere in core 
+
+```java
+s.push(o);
+...
+o = s.pop();
+```
+
+#### Discussion of Java Multiple Inheritance
+
+To understand Java interface, it is better understood from multiple inheritance. 
+
+> [!NOTE]
+> Implement is a concept of purified multiple inheritance
+
+However, how about the inheritance Principle
+
+<code>Class A:  <i>B, C</i></code>
+- **(YES)** A is B ?
+- **(YES)** A is C ?
+
+<code>Class A extend B <b>implement</b> <i>C, D</i></code>
+- **(YES)** A is B ?
+- **(YES or NO ???)** A is C ?
+- **(YES or NO ???)** A is D ?
+
+> [!NOTE]
+> We want to change the concept of **"A is a B?"** for inheritance in Java. When we use "implement", it becomes difficult to determine. Therefore, we need to change the concept to **"A can be B?"** which represents a more flexible inheritance relationship.
+>
+> 我們要改變原有判定繼承的概念 **"A is a B?"** "is a" 在 Java 當我們用 Implement 我們會很難判定，因此我們會需要把觀念換成 **"A can be B?"** 我們可以想成是比較寬鬆的繼承關係。
+
+However, think of the follow usage:
+
+```java
+Stack s = new MyLinkedList();
+```
+
+- `MyLinkedList` is a `Stack`? 
+
+不完全是，`MyLinkedList` 只是因為可以使用 `Stack` 的元件，所以從 `Stack` 繼承過來，但是 `MyLinkedList` 並不是 `Stack`。
+
+
+#### To simulate interface in C++
+
+```cpp
+Class human {
+    virtual void walk() = 0;
+    virtual void breath() = 0;
+}
+```
+
+
