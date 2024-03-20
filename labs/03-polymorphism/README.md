@@ -166,7 +166,6 @@ Why?
 物件導向最重要的核心意義就是將系統中 _____________ 的部分包裝到子類別中，然後利用 ______________將系統中的 high-level components (core components) 寫成與子類別 _______________的程式碼。所以當未來進行擴充或修改時， high-level components (core components) 可以幾乎都不用打開來修改。
 
 
-> 
 > 1. 未來或者頻繁變異、擴充
 > 2. 多型 Polymorphism
 > 3. 無關 inrelevant, independent
@@ -211,6 +210,15 @@ int main() {
     return 0;
 }
 ```
+
+> ```bash
+> $ ./a.out
+> A's foo!
+> B's foo!
+> B's foo!
+> ```
+> 
+> class Base 裡的 foo() 被宣告為 virtual function，因此 Derived 在做繼承的時候，會 override 掉 Base 裡的 foo()，另外我們也使用 Base 這個基底 class 去操作，因此會有 `Base *o2 = new Derived();` 這樣的多型的操作。
 
 
 ### Homework - Lab 11
@@ -258,6 +266,50 @@ class Cello extends Instrument {
 }
 ```
 
+> ```java
+> public class V {
+>     public static void main(String[] args) {
+>         // 弦樂四重奏
+>         Instrument[] stringQuartet = { new Violin(), new Violin(), new Viola(), new Cello() };
+>         // play the music for me
+>         for (Instrument instrument : stringQuartet) {
+>             instrument.play();
+>         }
+>     }
+> }
+> 
+> abstract class Instrument {
+>     abstract public void play();
+> }
+> 
+> // 小提琴
+> class Violin extends Instrument {
+>     @Override
+>     public void play() {
+>         System.out.println("旋律");
+>     }
+> }
+> 
+> // 中提琴
+> class Viola extends Instrument {
+>     @Override
+>     public void play() {
+>         System.out.println("合旋");
+> 
+>     }
+> }
+> 
+> // 大提琴
+> class Cello extends Instrument {
+>     @Override
+>     public void play() {
+>         System.out.println("低音");
+> 
+>     }
+> }
+> ```
+
+
 ### Homework - Lab 14
 
 Please implement (use polymorphism) the following code to make the result generate the same output.
@@ -288,12 +340,65 @@ int main(void) {
 }
 ```
 
+Please make inherit fit following class diagram.
+
 | Graph | Output |
 | --- | --- |
 | ![](./lab14/lab14-graph.png) | ![](./lab14/lab14-output.png) |
 
-Please make inherit fit following class diagram.
+expected output:
+```bash
+$ ./a.exe
+Base
+A
+B
+```
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Base {
+  public:
+    virtual void print() {
+        cout << "Base" << endl;
+    }
+    virtual ~Base() {}
+};
+
+class A : public Base {
+  public:
+    void print() {
+        cout << "A" << endl;
+    }
+};
+
+class B : public Base {
+  public:
+    void print() {
+        cout << "B" << endl;
+    }
+};
+
+int main(void) {
+    vector<Base *> bases = {new Base(), new A(), new B()};
+    for (Base *b : bases) {
+        b->print();
+    }
+
+    for (Base *b : bases) {
+        delete b;
+        b = nullptr;
+    }
+    bases.clear();
+
+    return 0;
+}
+```
+
+Reference: [C++ Function Overriding](https://www.programiz.com/cpp-programming/function-overriding)
 
 ### Homework - Lab 15
 
@@ -308,9 +413,94 @@ Modify the attachment by using polymorphism.
 typedef enum {
     Comic,
     Novel,
-    Magazine
-} book_type;
+    Magazine} book_type;
+
+
+typedef struct Book {
+    book_type type;
+} Book;
+
+void print_book_type(Book*);
+
+int main(void) {
+    Book books[SIZE];
+    books[0].type = Comic;
+    books[1].type = Novel;
+    books[2].type = Magazine;
+
+    for (int i = 0; i < SIZE; i++) {
+        print_book_type(&books[i]);
+    }
+
+    return 0;
+}
+
+void print_book_type(Book* book) {
+    assert(book);
+
+    switch (book->type) {
+    case Comic:
+        printf("Comic\n");
+        break;
+    case Novel:
+        printf("Novel\n");
+        break;
+    case Magazine:
+        printf("Maganize\n");
+        break;
+    }
+}
 ```
+
+> ```cpp
+> #include <iostream>
+> 
+> #define SIZE 3
+> 
+> class Book {
+> public:
+>     virtual void print_book_type() = 0;
+> };
+> 
+> class ComicBook : public Book {
+> public:
+>     void print_book_type() {
+>         std::cout << "Comic" << std::endl;
+>     }
+> };
+> 
+> class NovelBook : public Book {
+> public:
+>     void print_book_type() {
+>         std::cout << "Novel" << std::endl;
+>     }
+> };
+> 
+> class MagazineBook : public Book {
+> public:
+>     void print_book_type() {
+>         std::cout << "Magazine" << std::endl;
+>     }
+> };
+> 
+> int main() {
+>     Book* books[SIZE];
+> 
+>     ComicBook comicBook;
+>     NovelBook novelBook;
+>     MagazineBook magazineBook;
+> 
+>     books[0] = &comicBook;
+>     books[1] = &novelBook;
+>     books[2] = &magazineBook;
+> 
+>     for (int i = 0; i < SIZE; ++i) {
+>         books[i]->print_book_type();
+>     }
+> 
+>     return 0;
+> }
+> ```
 
 ### Homework - Lab 16
 
