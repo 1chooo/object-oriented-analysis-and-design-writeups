@@ -1,23 +1,22 @@
-# Material 04 - Multiple Inheritance
+# Material 04 - Multiple Inheritance  <!-- omit from toc --> 
 
 **Table of Contents**
-- [Material 04 - Multiple Inheritance](#material-04---multiple-inheritance)
-  - [Introduction](#introduction)
-  - [Percolating Up](#percolating-up)
-  - [A smarter solution?](#a-smarter-solution)
-    - [In Java](#in-java)
-  - [Casting in C/C++](#casting-in-cc)
-    - [Outputs](#outputs)
-  - [Analysis of the Ambiguity](#analysis-of-the-ambiguity)
-    - [Solution 1: Casting Ambiguous Attributes or Methods](#solution-1-casting-ambiguous-attributes-or-methods)
-    - [Solution 2: Overwriting Ambiguous Attributes or Methods](#solution-2-overwriting-ambiguous-attributes-or-methods)
-    - [Another Case: JetCar](#another-case-jetcar)
-    - [Another Case: Storable](#another-case-storable)
-      - [Diamond-Shaped Inheritance](#diamond-shaped-inheritance)
-    - [Java Interface](#java-interface)
-      - [How to use Java interface?](#how-to-use-java-interface)
-      - [Discussion of Java Multiple Inheritance](#discussion-of-java-multiple-inheritance)
-      - [To simulate interface in C++](#to-simulate-interface-in-c)
+- [Introduction](#introduction)
+- [Percolating Up](#percolating-up)
+- [A smarter solution?](#a-smarter-solution)
+  - [In Java](#in-java)
+- [Casting in C/C++](#casting-in-cc)
+  - [Outputs](#outputs)
+- [Analysis of the Ambiguity](#analysis-of-the-ambiguity)
+  - [Solution 1: Casting Ambiguous Attributes or Methods](#solution-1-casting-ambiguous-attributes-or-methods)
+  - [Solution 2: Overwriting Ambiguous Attributes or Methods](#solution-2-overwriting-ambiguous-attributes-or-methods)
+  - [Another Case: JetCar](#another-case-jetcar)
+  - [Another Case: Storable](#another-case-storable)
+    - [Diamond-Shaped Inheritance](#diamond-shaped-inheritance)
+  - [Java Interface](#java-interface)
+    - [How to use Java interface?](#how-to-use-java-interface)
+    - [Discussion of Java Multiple Inheritance](#discussion-of-java-multiple-inheritance)
+    - [To simulate interface in C++](#to-simulate-interface-in-c)
 
 
 > [!IMPORTANT]
