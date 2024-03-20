@@ -42,6 +42,9 @@ class model: base_model {
 
 He explains that he is doing great in inheritance and polymorphism.What do you think? (請你給他洗臉一下)
 
+
+> Answer:
+> 
 > ```cpp
 > model m = new model();
 > ```
@@ -57,8 +60,9 @@ He explains that he is doing great in inheritance and polymorphism.What do you t
 
 Why destructor in C++ must be declared as virtual?
 
+> Answer:
+> 
 > 因為當我們繼承原本的 base class 的時候我們是用原本的記憶體繼續增加，因此當我們今天要 destructor 新繼承的 class 的時候，我們的 destructor 是要用掉新建立的記憶體
-
 
 
 ### Lab 05
@@ -77,6 +81,8 @@ class Human {
 
 Please describe the pros and cons if you choose to do so. (本題分數為其它題目的 3 倍)
 
+> Answer:
+> 
 > - profs: 很明確地可以做出變異化，且不用擔心突如其來的變異，並且可以提高重複使用！
 > - cons:  當我們今天 subclass 要再去新繼承下一個 subclass2 的時候，會被受限制，反而跟原本的 base class 會變得沒有意義
 
@@ -95,6 +101,8 @@ Please explain:
 2. linking binding
 3. loading time binding
 
+> Answer:
+> 
 > 1. 在編譯的時候就確定要綁定哪一個 -> static
 > 2. 編譯的時候知道要使用的函示 address，透過只過去使用的編譯的時候就會知道
 > 3. 載入的時候，也就是開始運行時動態地去調用
@@ -105,7 +113,9 @@ Please explain:
 
 What is an indirect call in assembly? Please explain and give an example.
 
- 
+
+> Answer:
+> 
 > 當我們今天要呼叫目標函數的時候，也就是 `CALL`
 > 
 > ```assembly
@@ -151,7 +161,8 @@ Typically, an integer is 4 bytes. What is the size of an object from base?
 Why?
 
 
- 
+> Answer:
+> 
 > `16 bytes`
 > 
 > `int x, y` 總共 `8 bytes` 
@@ -166,6 +177,8 @@ Why?
 物件導向最重要的核心意義就是將系統中 _____________ 的部分包裝到子類別中，然後利用 ______________將系統中的 high-level components (core components) 寫成與子類別 _______________的程式碼。所以當未來進行擴充或修改時， high-level components (core components) 可以幾乎都不用打開來修改。
 
 
+> Answer:
+> 
 > 1. 未來或者頻繁變異、擴充
 > 2. 多型 Polymorphism
 > 3. 無關 inrelevant, independent
@@ -211,6 +224,8 @@ int main() {
 }
 ```
 
+> Answer:
+> 
 > ```bash
 > $ ./a.out
 > A's foo!
@@ -266,6 +281,8 @@ class Cello extends Instrument {
 }
 ```
 
+> Answer:
+> 
 > ```java
 > public class V {
 >     public static void main(String[] args) {
@@ -354,49 +371,51 @@ A
 B
 ```
 
-```cpp
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class Base {
-  public:
-    virtual void print() {
-        cout << "Base" << endl;
-    }
-    virtual ~Base() {}
-};
-
-class A : public Base {
-  public:
-    void print() {
-        cout << "A" << endl;
-    }
-};
-
-class B : public Base {
-  public:
-    void print() {
-        cout << "B" << endl;
-    }
-};
-
-int main(void) {
-    vector<Base *> bases = {new Base(), new A(), new B()};
-    for (Base *b : bases) {
-        b->print();
-    }
-
-    for (Base *b : bases) {
-        delete b;
-        b = nullptr;
-    }
-    bases.clear();
-
-    return 0;
-}
-```
+> Answer:
+> 
+> ```cpp
+> #include <iostream>
+> #include <vector>
+> 
+> using namespace std;
+> 
+> class Base {
+>   public:
+>     virtual void print() {
+>         cout << "Base" << endl;
+>     }
+>     virtual ~Base() {}
+> };
+> 
+> class A : public Base {
+>   public:
+>     void print() {
+>         cout << "A" << endl;
+>     }
+> };
+> 
+> class B : public Base {
+>   public:
+>     void print() {
+>         cout << "B" << endl;
+>     }
+> };
+> 
+> int main(void) {
+>     vector<Base *> bases = {new Base(), new A(), new B()};
+>     for (Base *b : bases) {
+>         b->print();
+>     }
+> 
+>     for (Base *b : bases) {
+>         delete b;
+>         b = nullptr;
+>     }
+>     bases.clear();
+> 
+>     return 0;
+> }
+> ```
 
 Reference: [C++ Function Overriding](https://www.programiz.com/cpp-programming/function-overriding)
 
@@ -452,6 +471,8 @@ void print_book_type(Book* book) {
 }
 ```
 
+> Answer:
+> 
 > ```cpp
 > #include <iostream>
 > 
@@ -532,12 +553,58 @@ public:
 };
 ```
 
+expected output:
+
 ```bash
 $ ./animal.exe
 
 meow
 moo
 ```
+
+> Answer:
+> 
+> ```cpp
+> #include <iostream>
+> #include <vector>
+> 
+> using namespace std;
+> 
+> class Animal {
+>   public:
+>     virtual void speak() = 0;
+>     virtual ~Animal() {}
+> };
+> 
+> class Cat : public Animal {
+>   public:
+>     void speak() {
+>         cout << "meow" << endl;
+>     }
+> };
+> 
+> class Cow : public Animal {
+>   public:
+>     void speak() {
+>         cout << "moo" << endl;
+>     }
+> };
+> 
+> int main(void) {
+>     vector<Animal *> animals = {new Cat(), new Cow()};
+>     for (Animal *animal : animals) {
+>         animal->speak();
+>     }
+> 
+>     for (Animal *animal : animals) {
+>         delete animal;
+>         animal = nullptr;
+>     }
+>     animals.clear();
+> 
+>     return 0;
+> }
+> ```
 
 
 [^1]: [Difference between direct and indirect function() calls](https://softwareengineering.stackexchange.com/questions/401110/difference-between-direct-and-indirect-function-calls)
