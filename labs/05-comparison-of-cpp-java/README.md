@@ -1,1 +1,1 @@
-# Material 05 - Comparison of C++ and Java
+# Material 05 Lab - Comparison of C++ and Java

@@ -1,4 +1,4 @@
-# Material 04 - Multiple Inheritance     <!-- omit from toc -->
+# Material 04 Lab - Multiple Inheritance     <!-- omit from toc -->
 
 **Table of Contents**
 - [Course](#course)
