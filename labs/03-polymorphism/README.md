@@ -1,23 +1,22 @@
-# Material 03 - PolyMorphism
+# Material 03 - PolyMorphism  <!-- omit from toc --> 
 
 **Table of Contents**
-- [Material 03 - PolyMorphism](#material-03---polymorphism)
-  - [Course](#course)
-    - [Lab 01](#lab-01)
-    - [Lab 02](#lab-02)
-    - [Lab 05](#lab-05)
-    - [Lab 06](#lab-06)
-    - [\[NEED TO SEARCH\] Lab 07](#need-to-search-lab-07)
-    - [\[NEED TO SEARCH\] Lab 08](#need-to-search-lab-08)
-      - [Indirect CALL \[^1\]](#indirect-call-1)
-    - [Lab 09](#lab-09)
-    - [Lab 10](#lab-10)
-  - [Homework](#homework)
-    - [Homework - Lab 04](#homework---lab-04)
-    - [Homework - Lab 11](#homework---lab-11)
-    - [Homework - Lab 14](#homework---lab-14)
-    - [Homework - Lab 15](#homework---lab-15)
-    - [Homework - Lab 16](#homework---lab-16)
+- [Course](#course)
+  - [Lab 01](#lab-01)
+  - [Lab 02](#lab-02)
+  - [Lab 05](#lab-05)
+  - [Lab 06](#lab-06)
+  - [\[NEED TO SEARCH\] Lab 07](#need-to-search-lab-07)
+  - [\[NEED TO SEARCH\] Lab 08](#need-to-search-lab-08)
+    - [Indirect CALL \[^1\]](#indirect-call-1)
+  - [Lab 09](#lab-09)
+  - [Lab 10](#lab-10)
+- [Take Home](#take-home)
+  - [Homework - Lab 04](#homework---lab-04)
+  - [Homework - Lab 11](#homework---lab-11)
+  - [Homework - Lab 14](#homework---lab-14)
+  - [Homework - Lab 15](#homework---lab-15)
+  - [Homework - Lab 16](#homework---lab-16)
 
 ## Course
 
@@ -188,7 +187,7 @@ Why?
 
 --- 
 
-## Homework
+## Take Home
 
 ### Homework - Lab 04
 
@@ -417,6 +416,10 @@ B
 > }
 > ```
 
+> [!NOTE]
+> Difference between `void print() {}` and `void print() override {}`:
+
+
 Reference: [C++ Function Overriding](https://www.programiz.com/cpp-programming/function-overriding)
 
 ### Homework - Lab 15
@@ -522,6 +525,12 @@ void print_book_type(Book* book) {
 >     return 0;
 > }
 > ```
+
+> [!NOTE]
+> Difference between `void print_book_type() {}` and `void print_book_type() override const {}`:
+
+
+
 
 ### Homework - Lab 16
 
