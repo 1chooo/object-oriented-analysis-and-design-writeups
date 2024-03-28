@@ -18,7 +18,7 @@
   - [CODE-LAB CDC-GK line 32-136](#code-lab-cdc-gk-line-32-136)
   - [CODE-LAB CDC-GK line 204-440](#code-lab-cdc-gk-line-204-440)
 - [Take Home](#take-home)
-  - [Homework -](#homework--)
+  - [Homework - 針對 copy-paste programming 應該怎麼改（補交題，5倍分數）](#homework---針對-copy-paste-programming-應該怎麼改補交題5倍分數)
 
 ## Course 
 
@@ -390,6 +390,8 @@ Cdc 是個 Constructor 但還在裡面 new 了很多的物件，應該只專心�
 335 } 
 336 } 
 ```
+
+
 > **My Answer:**
 >
 > 220, 221 不知道存在變數的意義是為何？
@@ -738,21 +740,127 @@ System.out.println("第"+clientno+"位玩家的右方物品屬性"+check[Charact
 可以運用多型去避免使用過多的 switch case，這樣就可以避免很多的問題。
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 ## Take Home
 
-### Homework - 
+### Homework - 針對 copy-paste programming 應該怎麼改（補交題，5倍分數）
 
+```java
+219 public void UpdateDirection(int clientno, int Movecode) { 
+220 int tempx; 
+221 int tempy; 
+222 tempx = character[clientno][3]; 
+223 tempy = character[clientno][4]; 
+224 switch (Movecode) { 
+225 case 0: 
+226 character[clientno][2] = 0; 
+227 break; 
+228 case 1: 
+229 if (cango(tempx, tempy - 10, 1, clientno)) { 
+230 character[clientno][1] = 1; 
+231 character[clientno][2] = 1; 
+232  
+233 // drawmap(tempx,tempy,clientno,1); 
+234 // System.out.println("UpdateDir " + character[clientno][3] + " " + 
+235 // character[clientno][4]); 
+236 } 
+237 break; 
+238 case 3: 
+239 if (cango(tempx, tempy + 10, 3, clientno)) { 
+240 // drawmap(tempx,tempy,clientno,2); 
+241 character[clientno][1] = 3; 
+242 character[clientno][2] = 1; 
+243  
+244 // System.out.println(character[clientno][3] + " " + 
+245 // character[clientno][4]); 
+246 } 
+247 break; 
+248 case 4: 
+249 if (cango(tempx - 10, tempy, 4, clientno)) { 
+250 // drawmap(tempx,tempy,clientno,3); 
+251 character[clientno][1] = 4; 
+252 character[clientno][2] = 1; 
+253 //System.out.println("west dir " +character[clientno][2]); 
+254 // System.out.println(character[clientno][3] + " " + 
+255 // character[clientno][4]); 
+256 } 
+257 break; 
+258 case 2: 
+259 if (cango(tempx + 10, tempy, 2, clientno)) { 
+260 // drawmap(tempx,tempy,clientno,4); 
+261 character[clientno][1] = 2; 
+262 character[clientno][2] = 1; 
+263 // System.out.println(character[clientno][3] + " " + 
+264 // character[clientno][4]); 
+265 } 
+266 break; 
+267 } 
+268 } 
+269  
+270  
+271 //判斷是否下一個想要走的位置可以走,可以的話回傳true,否則回傳false 
+272 boolean cango(int tempx, int tempy, int move, int no) { 
+273 int x1, x2, x3, x4, xx; 
+274 int y1, y2, y3, y4, yy; 
+275 int mapx, mapy; 
+276 x1 = tempx - 30 +1; //先取出各角落的pixel值 
+277 x2 = tempx - 10 +1; //用此角落的值,去做碰撞的判斷 278 x3 = tempx + 10 -1; // 加或減一,是以防碰到邊界,避免map判斷出錯
+279 x4 = tempx + 30 -1; 
+280 y1 = tempy - 30 +1; 
+281 y2 = tempy - 10 +1; 
+282 y3 = tempy + 10 -1; 
+283 y4 = tempy + 30 -1; 
+284 if (x1 < 0 || x4 > 600 || y1 < 0 || y4 > 600) { //邊界判定 
+285 // System.out.println("because of bound"); 
+286 return false; 
+287 } 
+288 //map 
+289 switch (move) { //根據要移動的方向,去看map是否有障礙 
+290 case 1: 
+291 mapy = y1 / 20; //map的障礙物,用array儲存,所以用/20來取map位置
+292 if (map[mapy][x1 / 20] == -1 || map[mapy][x2 / 20] == -1 || 
+293 map[mapy][x3 / 20] == -1 || map[mapy][x4 / 20] == -1) { 
+294 // System.out.println("because of map"); 
+295 return false; 
+296 } 
+297 break; 
+298 case 2: //往2方向的碰撞判定 299 mapx = x4 / 20; 
+300 if (map[y1/20][mapx] == -1 || map[y2 / 20][mapx] == -1 || 
+301 map[y3 / 20][mapx] == -1 || map[y4 / 20][mapx] == -1) { 
+302 // System.out.println("because of map"); 
+303 return false; 
+304 } 
+305 break; 
+306 case 3: //往3方向的碰撞判定 307 mapy = y4 / 20; 
+308 if (map[mapy][x1 / 20] == -1 || map[mapy][x2 / 20] == -1 || 
+309 map[mapy][x3 / 20] == -1 || map[mapy][x4 / 20] == -1) { 
+310 // System.out.println("because of map"); 
+311 return false; 
+312 } 
+313 break; 
+314 case 4: //往4方向的碰撞判定 
+315 mapx = x1 / 20; 
+316 if (map[y1 / 20][mapx] == -1 || map[y2 / 20][mapx] == -1 || 
+317 map[y3 / 20][mapx] == -1 || map[y4 / 20][mapx] == -1) { 
+318 // System.out.println("because of map"); 
+319 return false; 
+320 } 
+321 break; 
+322 } 
+323 for (int z = 1; z <= 4; z++) { //去看其他腳色是否有碰撞的情況
+324 yy = character[z][4]; 
+325 xx = character[z][3]; 
+326 if (z != no) { 
+327 if ( (xx - tempx < 60 && xx - tempx > -60) && 
+328 (yy - tempy < 60 && yy - tempy > -60)) { 
+329 // System.out.println("because of client" + z); 
+330 return false; 
+331 } 
+332 } 
+333 } 
+334 return true; 
+335 } 
+336 } 
+```
 
-不要動用到物件導向，用查表法去改寫。
+> [!TIP]
+> 不要動用到物件導向，用查表法去改寫。
