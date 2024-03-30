@@ -14,7 +14,6 @@
   - [Lab 14](#lab-14)
   - [Lab 15](#lab-15)
   - [Lab 16](#lab-16)
-- [Take Home](#take-home)
 
 ## Course
 
@@ -202,7 +201,3 @@ So, according to the OO principle, A is B and A ____________ C
 > My Answer:
 >
 > can be
-
-
-
-## Take Home
