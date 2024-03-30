@@ -1,8 +1,8 @@
-# Material 06 - Source Code Quality
+# Material 06 - Source Code Quality <!-- omit in toc -->
 
-- Software has essence of being abstract
-- Software has essence of being invisible
-- software has essence of being hard to describe
+**Table of Content**
+- [Code Review](#code-review)
+- [Typical symptoms of bad code](#typical-symptoms-of-bad-code)
 
 > Do you think code contains ART?
 > 
@@ -33,8 +33,21 @@ Software Engineering studies show that the quality of the code between a peak pe
 ![alt text](./code-quality-measurement.png)
 
 
+## Typical symptoms of bad code
 
+- Difficult to understand
+- Difficult to change (changing at one place results in changes in many other places) 
+- Hardwire the solutions (for example, instead of coming out a nice algorithms and data structures, many if is used)
+- Source code is tightly coupled because the excessive use of global variables.
+- Poor design that is difficult to extend.
 
+In CS major, main focuses are problem solving such as algorithms, techniques (networking, multimedia). Writing high quality code is not encouraged or viewed as an important topic among students
+
+We teach students how to assemble gears to solve a problem but do not educate them how to produce quality gears and measure quality of the gears.
+
+> [!TIP] Clean and simple interface, replaceability, modularity, composablity
+
+Their importance is not obvious in Software development, particularly if you never has chance to maintain a software
 
 
 
