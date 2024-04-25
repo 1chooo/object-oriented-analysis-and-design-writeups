@@ -76,7 +76,7 @@ S#:     零件供應商的編號 (Supplier no)
 SNAME:  零件供應商的姓名 (supplier name)
 CITY1   零件供應商的城市 (The city of a supplier) 
 P#      零件編號  (part no.)
-PNAME	零件名稱 (part name)
+PNAME   零件名稱 (part name)
 COLOR   零件色彩 (part color)
 WEIGHT  零件重量  (part weight)
 CITY2   零件所儲存的城市 (city where the parts are stored)
@@ -87,16 +87,9 @@ In your analysis, you found that a part can be supplied by several suppliers. Pl
 在你分析的過程中，你發現一個零件可能有多個供應商可以供應。請簡單說明這樣一個資料庫系統，你要用幾個表格，每個表格的屬性又為何？
 
 
-零件是輪胎
-
-輪胎供應商管理系統
-
-各種供應商
-
-輪胎店
+零件是輪胎、輪胎供應商管理系統、各種供應商、輪胎店
 
 比如從米其林輪胎進口，有各種不同的規格跟標價，有些輪胎會在南港輪胎有個倉庫，也有些輪胎會在鎮馨輪胎會有倉庫。
-
 
 Only for 大盤商要用的系統
 1. 老師是大盤商，從國外進口輪胎，有各種不同的規格跟標價。輪胎就直接到供應商了！
@@ -106,9 +99,84 @@ Only for 大盤商要用的系統
 3. 供應商的目的是要把輪胎賣給路邊的車行。
 
 
+> **My Answer:**
+> 
+> Supplier Table
+> | S# | SNAME | CITY1 |
+> |----|-------|-------|
+> 
+> Part Table
+> | P# | PNAME | COLOR | WEIGHT | CITY2 | QTY |
+> |----|-------|-------|--------|-------|-----|
+> 
+> Relation Suplier between Part Table
+> | S# | P# | CITY2 | QTY |
+> |----|----|-------|-----|
+> 
+> ```mermaid
+> ---
+> title: Supplier supplies Part
+> ---
+> classDiagram
+>     note "Author: Hugo"
+>     direction LR
+>     Supplier "1" --> "*" SupplyRelation: Supplies
+>     Part "1" --> "*" SupplyRelation: Supplies
+>     Supplier: *S#
+>     Supplier: SNAME
+>     Supplier: CITY1
+>     Part: *P#
+>     Part: PNAME
+>     Part: COLOR
+>     Part: WEIGHT
+>     Part: CITY2
+>     Part: QTY
+>     SupplyRelation: *S#
+>     SupplyRelation: *P#
+>     SupplyRelation: Quantity
+>     SupplyRelation: City2
+> ```
+
 ### Homework - Lab 06
 
 當你完成投影片最後一頁的作業。請把你完成的 DB table 改寫成物件導向的 class。
+
+> **My Answer:**
+> 
+> ```cpp
+> class Supplier;
+> class Part;
+> 
+> class Relation {
+> public:
+>     int SNum;
+>     int PNum;
+>     std::string City;
+>     int Qty;
+> 
+>     Supplier* supplier;
+>     Part* part;
+> };
+> 
+> class Supplier {
+> public:
+>     int SNum;
+>     std::string SName;
+>     std::string City;
+>     std::vector<Relation*> relations;
+> };
+> 
+> class Part {
+> public:
+>     int PNum;
+>     std::string PName;
+>     std::string Color;
+>     float Weight;
+>     std::string City;
+>     int Qty;
+>     std::vector<Relation*> relations;
+> };
+> ```
 
 
 ### Homework - Lab 09
@@ -124,6 +192,50 @@ Only for 大盤商要用的系統
 | Jeff Smith | Article Summary | Poetry analysis |
 | Nancy Jones | Article Summary | Reaction Paper |
 | Jane Scott | Article Summary | Poetry analysis |
+
+> **My Answer:**
+> 
+> Students Table:
+> | Student_ID | Name       |
+> |------------|------------|
+> | 1          | Jeff Smith |
+> | 2          | Nancy Jones|
+> | 3          | Jane Scott |
+> 
+> Assignment Table:
+> | Assignment_Name | Assignment_ID |
+> |-----------------|---------------|
+> | Article Summary  | 1             |
+> | Poetry analysis  | 2             |
+> | Reaction Paper   | 3             |
+> 
+> Relation Table:
+> | Assignment_Number | Student_ID | Assignment_ID |
+> |-------------------|------------|---------------|
+> | 1                 | 1          | 1             |
+> | 2                 | 1          | 2             |
+> | 1                 | 2          | 1             |
+> | 2                 | 2          | 3             |
+> | 1                 | 3          | 1             |
+> | 2                 | 3          | 2             |
+> 
+> ```mermaid
+> ---
+> title: Student Assignment
+> ---
+> classDiagram
+>     note "Author: Hugo"
+>     direction LR
+>     Student "1" --> "*" Relation: Has
+>     Assignment "1" --> "*" Relation: Has
+>     Student: *Student_ID
+>     Student: Name
+>     Assignment: *Assignment_ID
+>     Assignment: Assignment_Name
+>     Relation: *Assignment_Number
+>     Relation: Student_ID
+>     Relation: Assignment_ID
+> ```
 
 
 ### Homework - Lab 10
@@ -141,6 +253,65 @@ Only for 大盤商要用的系統
 | 1004 | John Hunt | New York | 212-555-1212 | Dell | HP | Apple |
 | 1005 | Martin Hap | Chicago | 312-555-1212 | Boeing |  |  |
 
+
+> **My Answer:**
+> 
+> 1. A. 當今天新增了 Office Number 到表格中，其實與其他 attribute 並沒有直接的關聯，有關連的只有 Sales Office，當今天 Sales Person 換辦公室了， Sales Office 也要跟著更換。
+> 2. B. 當 John Hunt 退休了，所有跟 John Hunt 的資訊都會被刪除，這樣 Customer 的關聯也可能跟著被刪除。
+> 
+> SalesStaff Table:
+> | EmployeeID | SalesPerson |
+> | :-: | :-: |
+> | 1003 | Mary Smith |
+> | 1004 | John Hunt |
+> | 1005 | Martin Hap |
+> 
+> Sales Office Table:
+> | SalesOffice | OfficeNumber |
+> | :-: | :-: |
+> | Chicago | 312-555-1212 |
+> | New York | 212-555-1212 |
+> 
+> Staff to Office Table:
+> | EmployeeID | SalesOffice |
+> | :-: | :-: |
+> | 1003 | Chicago |
+> | 1004 | New York |
+> | 1005 | Chicago |
+> 
+> SalesPersonCustomer Table:
+> | EmployeeID | Customer |
+> | :-: | :-: |
+> | 1003 | Ford |
+> | 1003 | GM |
+> | 1004 | Dell |
+> | 1004 | HP |
+> | 1004 | Apple |
+> | 1005 | Boeing |
+> 
+> ```mermaid
+> ---
+> title: Sales Staff
+> ---
+> classDiagram
+>     note "Author: Hugo"
+>     direction LR
+>     SalesStaff "1" --> "*" StaffToOffice: Works
+>     SalesStaff "1" --> "*" SalesPersonCustomer: Sells
+>     SalesOffice "1" --> "*" StaffToOffice: Has
+>     SalesStaff: *EmployeeID
+>     SalesStaff: SalesPerson
+>     SalesOffice: *SalesOffice
+>     SalesOffice: OfficeNumber
+>     StaffToOffice: *EmployeeID
+>     StaffToOffice: *SalesOffice
+>     SalesPersonCustomer: *EmployeeID
+>     SalesPersonCustomer: *Customer
+> ```
+
+
+
+
 ### Homework - Lab 11
 
 以下是一個 `customer` 的class。常見學生以下的寫法
@@ -149,18 +320,57 @@ Only for 大盤商要用的系統
 Class Customer {
    int id ;
    string address ;
-   int ProductID[100] ;  // 購買產品的 ID
-   int ProductCompanyID[100]; // 購買產品所屬的公司 ID
-   bool used[100] ; // 註記這個陣列的的元素是否已經被用來儲存
+   int ProductID[100] ;         // 購買產品的 ID
+   int ProductCompanyID[100];   // 購買產品所屬的公司 ID
+   bool used[100] ;             // 註記這個陣列的的元素是否已經被用來儲存
 }
 ```
-
 
 - A. 請先批評一番。
 - B. 然後請改寫。
 
 
-
-
-
+> **My Answer:**
+> 
+> My judge: 
+>    1. 首先，ProductID 是一個固定大小的 array 當今天顧客買的東西大過 100 了，那就會造成錯誤，是要再多開一個 Customer 嗎？還是要再多開一個 array？
+>    2. ProductCompany 也是同理，如果很多 ProductID 都來自同一個公司，那要存幾次？
+>    3. used 是要依據 ProductID 來判斷的話，那每次都要遍歷整個 array，這樣的效率很差。
+> 
+> ```cpp
+> class Customer {
+>     int customerID;
+>     string address;
+> };
+> 
+> class Product {
+>     int productID;
+>     int ProductCompanyID;
+> };
+> 
+> class UsedProduct {
+>     int productID;
+>     int customerID;
+>     bool used;
+> };
+> ```
+> 
+> ```mermaid
+> ---
+> title: Customer Purchase
+> ---
+> classDiagram
+>     note "Author: Hugo"
+>     direction LR
+>     Customer "1" --> "*" Product: Purchase
+>     Product "*" --> "1" UsedProduct: is recorded
+>     Customer: *customerID
+>     Customer: address
+>     Product: *ProductID
+>     Product: customerID
+>     Product: ProductCompanyID
+>     UsedProduct: productID
+>     UsedProduct: customerID
+>     UsedProduct: used
+> ```
 
