@@ -2,39 +2,43 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class Supplier;
 class Part;
 
 class Relation {
-public:
+  private:
     int SNum;
     int PNum;
     std::string City;
     int Qty;
 
-    Supplier* supplier;
-    Part* part;
+    Supplier *supplier;
 };
 
 class Supplier {
-public:
+  private:
     int SNum;
     std::string SName;
-    std::string City;
-    std::vector<Relation*> relations;
+    int Qty;
+    std::string City1;
+
+    Relation *relation;
 };
 
 class Part {
-public:
+  private:
     int PNum;
     std::string PName;
     std::string Color;
     float Weight;
-    std::string City;
-    int Qty;
-    std::vector<Relation*> relations;
+    std::string City2;
+
+    Relation *relation;
 };
 
 int main() {
+    printf("Hello, World!\n");
     return 0;
 }

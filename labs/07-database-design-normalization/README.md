@@ -178,6 +178,53 @@ Only for 大盤商要用的系統
 > };
 > ```
 
+**feedback from TA:**
+
+1. 零件本身不應直接儲存數量，數量的職責應屬於供應商
+2. 零件與供應商的關係不應寫在 class Part 中，在 你的 relation 中允許輸入 part id 與 Supplier id，但是若將 relation 儲存至 class Part 中，是否意味著欄位 part id 只能儲存自己的 id？因為儲存的若非自己的 id，relations 欄位與 Part 就不存在相依性，也就是說，relations 就不與 Part 高度相關（Color、Weight 都是 class Part 的一部分，但儲存了別人 id 的 relation 算嗎？）；反之，若 relations 欄位只能儲存關於自己的零件關係，是否意味著 class Relation 就不應該儲存 part id，因為 part id 永遠是同一個（自己的），part id 將變成冗餘數據。因此將 relation 欄位儲存至 class Part 中不合適。
+
+```cpp
+class Supplier;
+class Part;
+
+class Relation {
+  private:
+    int SNum;
+    int PNum;
+    std::string City;
+    int Qty;
+
+    Supplier *supplier;
+};
+
+class Supplier {
+  private:
+    int SNum;
+    std::string SName;
+    int Qty;
+    std::string City1;
+
+    Relation *relation;
+};
+
+class Part {
+  private:
+    int PNum;
+    std::string PName;
+    std::string Color;
+    float Weight;
+    std::string City2;
+
+    Relation *relation;
+};
+```
+
+做了以下修正：
+1. 將零件數量的管理回歸到供應商
+2. Relation 不會儲存 part id，進而透過 relation 去達成零件與供應商的關聯
+3. 當初沒有封裝的實作，這些成員間應當使用 private 來保護，之後如要取用可以用 `get` 的方式來取得
+4. 另外 `Supplier`, `Part` 的 Relation 改用 pointer 來儲存，並免有同一筆字料過度的關聯產生。
+
 
 ### Homework - Lab 09
 
