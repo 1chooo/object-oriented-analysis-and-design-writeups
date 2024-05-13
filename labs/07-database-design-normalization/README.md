@@ -1,5 +1,20 @@
 # Material 07 Lab - Database Design and Normalization <!-- omit in toc -->
 
+**Table of Contents**
+- [Course](#course)
+  - [Lab 01](#lab-01)
+  - [Lab 02](#lab-02)
+  - [Lab 03](#lab-03)
+  - [Lab 04](#lab-04)
+  - [Lab 07](#lab-07)
+  - [Lab 08](#lab-08)
+- [Take Home](#take-home)
+  - [Homework - Lab 05 (三倍)](#homework---lab-05-三倍)
+  - [Homework - Lab 06](#homework---lab-06)
+  - [Homework - Lab 09](#homework---lab-09)
+  - [Homework - Lab 10](#homework---lab-10)
+  - [Homework - Lab 11](#homework---lab-11)
+
 ## Course 
 
 ### Lab 01
