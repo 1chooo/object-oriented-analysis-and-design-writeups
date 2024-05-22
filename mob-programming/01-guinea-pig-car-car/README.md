@@ -164,3 +164,128 @@ public class TrashTruck extends Car {
     
 }
 ```
+
+
+#### Terms
+
+`Car`
+
+- `Car/Car.java`
+- `Car/Ambulance.java`
+- `Car/PoliceCar.java`
+- `Car/TrashTruck.java`
+
+`GuineaPig`
+
+- `GuineaPig/GuineaPig.java`
+- `GuineaPig/GuineaPigCarCar.java`
+
+`RunRunGuineaPigCarCarRace`
+
+- `RunRunGuineaPigCarCarRace.java`
+
+#### Cases
+
+1. GuineaPig 可以發出聲音 (noise)、進食 (eat)、棒賽 (pupu)。
+2. 車子 (Car) 可以加速 (accelerate)、重置速度 (resetSpeed)。
+    - 不同的車種會有不同的初速度與加速度
+    - 警車 (PoliceCar): 初速度為 14、加速度為 5。
+    - 救護車 (Ambulance): 初速度為 11、加速度為 2。
+    - 垃圾車 (TrashTruck): 初速度為 8、加速度為 4。
+3. 天竺鼠車車 (GuineaPigCarCar) 擁有一般天竺鼠的特性，也擁有和汽車一樣的功能。
+
+
+#### Discussion
+
+1. 天竺鼠車車是車的一種嗎？
+2. 天竺鼠車車是天竺鼠的一種嗎？
+
+![](./uml.png)
+
+```mermaid
+---
+title: GuineaPigCarCar
+---
+classDiagram
+    note "Author: Hugo"
+    class Car {
+        -int speed
+        -int initSpeed
+        -int accelerateSpeed
+        Car()
+        Car(int initSpeed, int accelerateSpeed)
+        +void accelerate()
+        +void resetSpeed()
+        +int getSpeed()
+    }
+
+    class Ambulance {
+        Ambulance()
+    }
+
+    class PoliceCar {
+        PoliceCar()
+    }
+
+    class TrashTruck {
+        TrashTruck()
+    }
+
+    Car <|-- Ambulance
+    Car <|-- PoliceCar
+    Car <|-- TrashTruck
+
+    class GuineaPig {
+        -String name
+        -int foodCount
+        GuineaPig()
+        GuineaPig(String name)
+        +void noise()
+        +void eat(String food)
+        +void pupu()
+        +String getName()
+    }
+
+    class GuineaPigCarCar {
+        -Car car
+        -ArrayList~String~ foods
+        GuineaPigCarCar()
+        GuineaPigCarCar(String name, Car car)
+        +void eat(String food)
+        +void pupu()
+        +int getSpeed()
+        -void eatRule(String food)
+    }
+
+    GuineaPig <|-- GuineaPigCarCar
+
+    class RunRunGuineaPigCarCarRace {
+        -ArrayList~GuineaPigCarCar~ contestants
+        -ArrayList~Integer~ distances
+        RunRunGuineaPigCarCarRace(ArrayList~GuineaPigCarCar~ contestants)
+        -void reset()
+        -void onTime()
+        -void on10Sec()
+        +void run()
+        -int incrementTime(int time)
+    }
+
+    class Main {
+        +ArrayList~GuineaPigCarCar~ contestants
+        +void main(String[] args)
+    }
+
+    GuineaPigCarCar --> Car
+    RunRunGuineaPigCarCarRace --> GuineaPigCarCar
+    Main --> RunRunGuineaPigCarCarRace
+    Main --> GuineaPigCarCar
+    Main --> PoliceCar
+    Main --> Ambulance
+    Main --> TrashTruck
+```
+
+#### Reference
+
+- [簡單理解 UML 類別圖](https://misomiso43.medium.com/%E7%B0%A1%E5%96%AE%E7%90%86%E8%A7%A3-uml-%E9%A1%9E%E5%88%A5%E5%9C%96-f0b32a3272c)
+- [UML Class Diagram Tutorial](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/)
+- [How to show abstract class containing other classes in Java UML class diagrams?](https://stackoverflow.com/questions/72402730/how-to-show-abstract-class-containing-other-classes-in-java-uml-class-diagrams)
