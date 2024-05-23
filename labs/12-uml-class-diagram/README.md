@@ -49,7 +49,7 @@
 
 Whole class diagram:
 
-![](uml_class_diagram.drawio.png)
+![](uml_class_diagram.png)
 
 Views:
 
