@@ -1,5 +1,18 @@
 # Material 10 Lab - An Overview of UML <!-- omit in toc -->
 
+## Table of Contents <!-- omit in toc -->
+- [Course](#course)
+  - [Lab 01](#lab-01)
+  - [Lab 02](#lab-02)
+  - [Lab 03](#lab-03)
+  - [Lab 04](#lab-04)
+  - [Lab 05](#lab-05)
+  - [Lab 06](#lab-06)
+  - [Lab 07](#lab-07)
+  - [Lab 08](#lab-08)
+  - [Lab 10](#lab-10)
+
+
 ## Course
 
 ### Lab 01

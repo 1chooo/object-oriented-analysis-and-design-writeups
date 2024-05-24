@@ -1,5 +1,189 @@
 # Material 12 Lab - UML Class Diagram <!-- omit in toc -->
 
+## Course
+
+### Lab 01
+
+Please draw a UML relation between car and baggage
+
+```cpp
+class Car {
+  public:
+    ...
+    void addBaggageWeight(Baggage* baggage);
+    ...
+
+  private:
+    double weight;
+};
+
+void Car::addBaggageWeight(Baggage* baggage) {
+  weight += baggage.getWeight();
+}
+```
+
+```mermaid
+classDiagram
+  class Car {
+    + void addBaggageWeight(Baggage* baggage)
+    - double weight
+  }
+  class Baggage {
+    + double getWeight()
+  }
+
+  Car "1" -- "0..*" Baggage
+```
+
+The relation between car and baggage is Association.
+
+
+### Lab 04
+
+```mermaid
+classDiagram
+    class Party {
+        + string location
+        + void Method()
+    }
+    class Person {
+    }
+    class Organization {
+    }
+    Person "1" -- "1" Party
+    Organization "1" -- "1" Party
+    Organization "*" -- "1" Organization
+```
+
+Person, Organization -> Party
+
+Person 跟 Org 是 * 對 1
+
+Org 對 Org 是 * 對 1
+
+```cpp
+class Party {
+    string location;
+
+    void Method() {}
+};
+
+class Person : public Party {
+};
+
+class Organization : public Party {
+};
+```
+
+
+### Lab 06
+
+    
+請用 `C++`, `Java` 等等你熟悉的語言舉一個例子 dependency 的例子。這個例子不能是 association (aggregation)。
+
+
+```cpp
+class A {
+    void Method() {
+        B b;
+        b.Method();
+    }
+};
+
+class B {
+    void Method() {}
+};
+```
+
+A 依賴 B，但不是 aggregation
+
+```mermaid
+classDiagram
+    class A {
+        + void Method()
+    }
+    class B {
+        + void Method()
+    }
+    A --> B
+```
+
+### Lab 07
+
+當我的核心程式碼要寫到與某一個 GUI SDK 無關來增加未來核心程式碼的可移植性。請問你要怎麼做到這件事情。
+
+請你實際寫個程式片段證實你的理解。
+
+```cpp
+class Core {
+    void Method() {}
+};
+
+class GUI {
+    Core core;
+
+    void Method() {
+        core.Method();
+    }
+};
+```
+
+如此我未來核心程式碼當我需要更改 GUI SDK 時，只需要更改 GUI 這個 class 即可。
+
+```mermaid
+classDiagram
+    class Core {
+        + void Method()
+    }
+    class GUI {
+        - Core core
+        + void Method()
+    }
+    GUI --> Core
+```
+
+### Lab 08
+
+下面的UML diagram 中，名稱畫底線的意思是?
+
+代表是 static 的意思，屬於 class 本身
+
+
+
+### Lab 10
+
+請由下面一段程式碼畫出與class Employer 相關的所有 classes 的 UML class diagram
+
+```java
+class Employer extend Person implements Managing {
+   Person employee[100] ;
+
+    public void hireAnEmployee(Person p) {
+    ...
+    }
+    public void fireAnEmployee(Person p) {
+    ...
+    }
+}
+```
+
+```mermaid
+classDiagram
+    class Person {
+    }
+    class Employer {
+        - Person employee[100]
+        + void hireAnEmployee(Person p)
+        + void fireAnEmployee(Person p)
+    }
+    class Managing {
+    }
+    Employer --|> Person
+    Employer --|> Managing
+```
+
+
+
 ## Take Home
 
 ### Homework - Lab 11
