@@ -10,6 +10,17 @@
 - [Teacher's WORDS](#teachers-words)
   - [Meet the UGLY Truth](#meet-the-ugly-truth)
   - [Suggestions](#suggestions)
+- [Talk about the Strategy of Design Pattern](#talk-about-the-strategy-of-design-pattern)
+  - [The OO design](#the-oo-design)
+    - [Truth](#truth)
+  - [Recall the purpose of SE and OOAD](#recall-the-purpose-of-se-and-ooad)
+  - [Design Principle](#design-principle)
+  - [What is polymorphism?](#what-is-polymorphism)
+    - [Let’s put them altogether](#lets-put-them-altogether)
+    - [To define a new kind of Duck](#to-define-a-new-kind-of-duck)
+    - [The magic – you can have a duck whose behavior can change in runtime](#the-magic--you-can-have-a-duck-whose-behavior-can-change-in-runtime)
+  - [An entire solution](#an-entire-solution)
+  - [Design Principle](#design-principle-1)
 - [Singleton](#singleton)
 - [DEEP TALK on Singleton](#deep-talk-on-singleton)
   - [Why Global Variables Should Be Avoided When Unnecessary!](#why-global-variables-should-be-avoided-when-unnecessary)
@@ -143,6 +154,137 @@ if (type == "wop") {
 
 > [!NOTE]
 > Please focus on the future change and extension of your software, once your software even no requirements to change, you can ignore the design pattern.
+
+## Talk about the Strategy of Design Pattern
+
+![alt text](image-16.png)
+
+
+Joe works for a company that makes a highly successful duck pond simulation game, SimUDuck. The game can show a large variety of duck species swimming and making quacking sounds. The initial designers of the system used standard `OO` techniques and created on Duck superclass from which all other duck types inherit.
+
+![alt text](image-17.png)
+
+### The OO design
+
+![alt text](image-18.png)
+
+> [!WARNING]
+>
+> **Remember ! Software change !**
+> 
+> The executives decided that flying ducks is just what the simylator needs to blow away the other duck sim competitors. And of course Joe's manager told them it'll be no problem for Joe to just whip something up in a week. "After all", said Joe's boss, "he's an `OO` programmer... *how hard can it be?*"
+>
+> ![alt text](image-19.png)
+
+![alt text](image-20.png)
+
+![alt text](image-21.png)
+
+> [!WARNING]
+>
+> Something horribly wrong
+>
+> ![alt text](image-22.png)
+
+![alt text](image-23.png)
+
+![alt text](image-24.png)
+
+![alt text](image-25.png)
+
+![alt text](image-26.png)
+
+![alt text](image-27.png)
+
+![alt text](image-28.png)
+
+#### Truth
+
+![alt text](image-29.png)
+
+![alt text](image-30.png)
+
+![alt text](image-31.png)
+
+### Recall the purpose of SE and OOAD
+
+![alt text](image-32.png)
+
+![alt text](image-33.png)
+
+> [!NOTE]
+> Java's Interface no code in it, just a declaration, 
+
+### Design Principle
+
+![alt text](image-34.png)
+
+![alt text](image-35.png)
+
+![alt text](image-36.png)
+
+![alt text](image-37.png)
+
+![alt text](image-38.png)
+
+![alt text](image-39.png)
+
+![alt text](image-40.png)
+
+
+> [!NOTE]
+> `Animal dog = new Dog();` NOT `Dog dog = new Dog();`
+> 
+> Animal 才是所謂的 Core 程式碼
+
+### What is polymorphism?
+
+![alt text](image-41.png)
+
+![alt text](image-42.png)
+
+![alt text](image-43.png)
+
+#### Let’s put them altogether
+
+![alt text](image-44.png)
+
+![alt text](image-45.png)
+
+#### To define a new kind of Duck
+
+![alt text](image-46.png)
+
+#### The magic – you can have a duck whose behavior can change in runtime
+
+![alt text](image-47.png)
+
+![alt text](image-48.png)
+
+![alt text](image-49.png)
+
+![alt text](image-50.png)
+
+> [!NOTE]
+> 動態的方式去改掉.
+
+![alt text](image-51.png)
+
+### An entire solution
+
+![alt text](image-52.png)
+
+![alt text](image-53.png)
+
+### Design Principle
+
+![alt text](image-55.png)
+
+![alt text](image-54.png)
+
+> [!NOTE]
+> Has a bettere than Is a (composition is better than inheritance)
+
 
 ## Singleton
 
@@ -323,7 +465,7 @@ classDiagram
         - static Singleton uniqueInstance
         // Other useful Singleton Data...
         + static Singleton getInstance()
-        // Other useful Singleton Methods...
+        // Other useful Singleton Methods()...
     }
 ```
 
@@ -363,7 +505,7 @@ public class Singleton {
 > - It's probably fair to say that on the whole, the `volatile` keyword in Java is poorly documented, poorly understood, and rarely used. To make matters worse, its formal definition actually changed as of Java 5.
 > - Essentially, `volatile` is used to indicate that a **variable's value will be modified by different threads**
 > 
-> **Declaring a volatile Java variable means: **
+> **Declaring a volatile Java variable means:**
 > - The value of this variable will never **be cached thread-locally**: all reads and writes will **go straight to "main memory"**; 
 > - Access to the variable acts as though it is **enclosed in a synchronized block**, synchronized on **itself**.
 
