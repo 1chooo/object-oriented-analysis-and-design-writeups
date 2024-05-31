@@ -19,10 +19,11 @@
     - [Let’s put them altogether](#lets-put-them-altogether)
     - [To define a new kind of Duck](#to-define-a-new-kind-of-duck)
     - [The magic – you can have a duck whose behavior can change in runtime](#the-magic--you-can-have-a-duck-whose-behavior-can-change-in-runtime)
+    - [Setting behavior dynamically](#setting-behavior-dynamically)
   - [An entire solution](#an-entire-solution)
   - [Design Principle](#design-principle-1)
-- [Singleton](#singleton)
-- [DEEP TALK on Singleton](#deep-talk-on-singleton)
+- [Singleton Pattern](#singleton-pattern)
+- [DEEP TALK on Singleton Pattern](#deep-talk-on-singleton-pattern)
   - [Why Global Variables Should Be Avoided When Unnecessary!](#why-global-variables-should-be-avoided-when-unnecessary)
   - [Side effects](#side-effects)
   - [The stupid way in Java (pure OOPL)](#the-stupid-way-in-java-pure-oopl)
@@ -35,12 +36,12 @@
     - [The Singleton Pattern for Multi-thread-Safe – Double Check lock solution](#the-singleton-pattern-for-multi-thread-safe--double-check-lock-solution)
   - [More Tutorial on Java Synchronized Keyword](#more-tutorial-on-java-synchronized-keyword)
   - [What the hell is "singleton.class"?](#what-the-hell-is-singletonclass)
-- [Composite](#composite)
+- [Composite Pattern](#composite-pattern)
   - [Design Pattern: Composite](#design-pattern-composite)
-- [Proxy](#proxy)
-- [Observer](#observer)
-- [Strategy](#strategy)
-- [Visitor](#visitor)
+- [Proxy Pattern](#proxy-pattern)
+- [Observer Pattern](#observer-pattern)
+- [Strategy Pattern](#strategy-pattern)
+- [Visitor Pattern](#visitor-pattern)
   - [Problem](#problem)
 
 ## Why Patterns?
@@ -93,7 +94,7 @@ Often, people only understand how to apply certain software design techniques to
 - The idea of a design pattern is an attempt to standardize what are already accepted best practices. In principle this might appear to be beneficial, but in practice it often results in the unnecessary duplication of code. It is almost always a more efficient solution to use a well-factored implementation rather than a "just barely good enough" design pattern.
 - Passionate (Patterners)  force their code into this pattern and that pattern they typically miss the fact that they are more often than not INCREASING complexity rather than following Fowler's first rule of KISS (keep it simple and stupid). Other than that they seem like genuinely intelligent people. Go figure.
 - Design pattern make code obscure and difficult to understand
-- "The OVERUSE is worst thank NO USE it at all“
+- "The OVERUSE is worst thank NO USE it at all"
 - Is important to understand and use all these things, but more important is how and where to use them
 - I would also like to add that sometimes extensive use of design patterns is overkill. Some problems, especially if the requirements and future change is very predictable and stable, can be solved very easily without employing design patterns. It's also fair to say that once a developer/designer is fluent in the use of design patterns he/she can incorporate them into a solution as easily as using any other design construct. But this doesn't mean that the next guy who comes along and is going to maintain that project or make some changes to it has the same intimacy with design patterns as the first designer therefore we have another overkill. To sum up, design patterns should be used wisely and where needed and like any other tool that we have at our disposal if you try to fix everything using design patterns you're going to end up in a big mess.
 
@@ -204,28 +205,47 @@ Joe works for a company that makes a highly successful duck pond simulation game
 
 ![alt text](image-30.png)
 
-![alt text](image-31.png)
+
+We know that not *all* of the subclasses should have flying or quacking behavior, so inheritance isn't the right answer. But while having the subclasses implement Flyable and/or Quackable soves *part* of the problem (no inappropriately flying rubber ucks), it completely destroys code reuse for those behaviors, so it just creates a **different** maintenance nightmare. And of course there might be more than one kind of flying behavior even amoung the ducks that **do** fly...
+
+At this point you migh be waiting for a Design Pattern to come riging in on a white house and save the day. But what fun would that be? **No**, we're going to figure out a solution the old-fashioned way -- ***by applying good OO software design principles.***
 
 ### Recall the purpose of SE and OOAD
 
 ![alt text](image-32.png)
 
-![alt text](image-33.png)
+So we know using inheritance hasn't worked out very well, since the duck behavior keeps changing across the subclasses, and it's not appropriate for **all** subclasses to have those behaviors. The `Flyable` and `Quackable` interface sounded promising at first -- only ducks that really do fly will be Flyable, etc. -- except Java interfaces have no implementation code, so no code reuse. And that means what whenever you need to modify a behavior, you're forced to track down and change it in all the different subclasses where that behavior id defined, probably introducing new *bugs* along the way.
 
 > [!NOTE]
 > Java's Interface no code in it, just a declaration, 
 
 ### Design Principle
 
-![alt text](image-34.png)
+> [!IMPORTANT]
+> 
+> Take what varies and "encapsulate" it so it won't affect the rest of your code.
+> 
+> The result? Fewer unintended consequences from code changes and more flexibility in your systems!
 
-![alt text](image-35.png)
+We know that `fly()` and `quack()` are the parts of the Duck class that vary across ducks.
+
+To separate these behaviors from the Duck class, we'll pull both methods out of the Duck class and create a new set of classes to represent each behavior.
 
 ![alt text](image-36.png)
 
-![alt text](image-37.png)
 
-![alt text](image-38.png)
+> [!IMPORTANT]
+> 
+> **From now on, the Duck behaviors will live in a separate class -- a class that implements a particular behavior interface.**
+>
+> **That way, the Duck classes won't need to know any of the implementation details for their own behaviors.**
+
+
+> [!IMPORTANT]
+>
+> **Design Principle**
+>
+> Program to an interface, not an implementation
 
 ![alt text](image-39.png)
 
@@ -241,54 +261,263 @@ Joe works for a company that makes a highly successful duck pond simulation game
 
 ![alt text](image-41.png)
 
-![alt text](image-42.png)
 
-![alt text](image-43.png)
+With this design, other types of objects can reuse our fly and quck behaviors because these behaviors are no longer hidden away in our Duck classes!
+
+And we can add new behaviors without modifying any of our existing behavior classes or touching any of the Duck classes that use flying behaviors.
+
+> [!NOTE]
+>
+> So we get the benefit of REUSE without all the baggage that comes along with inheritance.
+
+> [!IMPORTANT]
+>
+> **Q: It feels a little weird to have a class that's just a behavior. Aren't classes suposed to represent things? Aren't classes supposed to have both state AND behavior?**
+>
+> A: **In an `OO` system, yes,** classes represent things that generally have both state (instance variables) and mehtods. And in this case, the thing happens to be a behavior. But even a behavior can still have state and methods; a flying behavior might have instance variables representing the attributes for the flying (wing beats per minute, max altitude and speed, etc.) behavior.
+> 
 
 #### Let’s put them altogether
 
 ![alt text](image-44.png)
 
-![alt text](image-45.png)
+<!-- ```mermaid
+classDiagram
+    class Duck {
+        - FlyBehavior flyBehavior
+        - QuackBehavior quackBehavior
+        + void performQuack()
+        + void swim()
+        + void display()
+        + void performFly()
+        // OTHER duck-like mehtod()
+    }
+``` -->
+
+
+**2. Now we implement `performQuack()`:**
+
+```java
+public class Duck {
+    /**
+     * Each Duck has a reference to something that implements the QuackBehavior interface.
+     */
+    QuackBehavior quackBehavior;
+    // more
+
+    /**
+     * Rather than handling the quack behavior itself, the Duck object delegates that behavior to the object referenced by quackBehavior.
+     */
+    public void performQuack() {
+        quackBehavior.quack();
+    }
+}
+```
 
 #### To define a new kind of Duck
 
-![alt text](image-46.png)
+```java
+public class MallardDuck extends Duck {
+    public MallardDuck() {
+        /**
+         * A MallardDuck uses the Quack class to handle its quack, so when performQuack is called the respansibility for the quack is delegated to the Quack object and we get a real quack.
+         */
+        quackBehavior = new Quack();
+        /**
+         * And it uses FlyWithWings as its FlyBehavior type.
+         */
+        flyBehavior = new FlyWithWings();
+    }
+
+    public void display() {
+        System.out.println("I'm a real Mallard duck");
+    }
+}
+```
+
+> [!NOTE]
+>
+> Remember, MallardDuck inherits the quackBehavior and flyBehavior instance variables from class Duck.
 
 #### The magic – you can have a duck whose behavior can change in runtime
 
-![alt text](image-47.png)
+So, we still have a lot of flexibility here, but we;re doing a poor job of initializing the instance variables in a flexible way. But think about it, since the quackBehavior instance variable is an interface type, we could (through the magic of polymorphism) dynamically assign a different QuackBehavior implementation class at runtime.
 
-![alt text](image-48.png)
+Take a moment and think about how you would implement a duck so that its behavior could change at runtime. (You'll see the code that does this a few pages from now.)
 
-![alt text](image-49.png)
+**1. Type and compile the Duck class below (`Duck.java`), and the MallardDuck class from tow pages back (`MallardDuck.java`).**
 
-![alt text](image-50.png)
+```java
+public abstract class Duck {
+    // Declare two reference variables for the behavior interface types. All duck subclasses (in the same package) inherit these.
+    FlyBehavior flyBehavior;
+    QuackBehavior quackBehavior;
+    public Duck() { 
+    }
+
+    public abstract void display();
+
+    // Delegate to the behavior class
+    public void performFly() {
+        flyBehavior.fly();
+    }
+    public void performQuack() {
+        quackBehavior.quack();
+    }
+
+    public void swim() {
+        System.out.println("All ducks float, even decoys!");
+    }
+}
+```
+
+**2. Type and compile the FlyBehavior interface (`FlyBehavior.java`) and the two behavior implementation classes (`FlyWithWings.java`) and (`FlyNoWay.java`).**
+
+```java
+public interface FlyBehavior {
+    public void fly();
+}
+```
 
 > [!NOTE]
-> 動態的方式去改掉.
+>
+> The interface that all flying behavior classes implement.
 
-![alt text](image-51.png)
+```java
+public class FlyWithWings implements FlyBehavior {
+    public void fly() {
+        System.out.println("I'm flying!!");
+    }
+}
+```
+
+> [!NOTE]
+>
+> Flying behavior implementation for ducks that **DO fly**...
+
+**4. Type and compiile the test class (`MiniDuckSimulator.java`)**.
+
+```java
+public class MiniDuckSimulator {
+    public static void main(String[] args) {
+        Duck mallard = new MallardDuck();
+        /**
+         * This calls the MallardDuck's inherited performQuack() method, which then delegates to the object's quackBehavior (i.e. calls quack() on the duck's inherited quackBehavior reference).
+         */
+        mallard.performQuack();
+        /**
+         * Then we do the same thing with MallardDuck's inherited performFly() method.
+         */
+        mallard.performFly();
+    }
+}
+```
+
+**5. Run the code!**
+
+```bash
+$ java MiniDuckSimulator
+
+Quack
+I'm flying!!
+```
+
+#### Setting behavior dynamically
+
+What a shame to have all this dynamic talent built into our ducks and not be using it! Imagine you want to set the duck's behavior type through a setter method on the duck subclass, tather than by instantiating it in the duck's constructor.
+
+
+**1. Add two new methods to the Duck Class:**
+
+```java
+public void setFlyBehavior(FlyBehavior fb) {
+    flyBehavior = fb;
+}
+
+public void setQuackBehavior(QuackBehavior qb) {
+    quackBehavior = qb;
+}
+```
+
+```mermaid
+classDiagram
+    class Duck {
+        - FlyBehavior flyBehavior
+        - QuackBehavior quackBehavior
+        + void swim()
+        + void display()
+        + void performQuack()
+        + void performFly()
+        + void setFlyBehavior(FlyBehavior)
+        + void setQuackBehavior(QuackBehavior)
+        // Other Duck-like method()
+    }
+```
+
+> [!NOTE]
+>
+> We can call these methods anytime we want to change the behavior of a duck **on the fly**.
+
+**2. Make a new Duck Type (`ModelDuck.java`)**
+
+```java
+public class ModelDuck extends Duck {
+    public ModelDuck() {
+        flyBehavior = new FlyNoWay();
+        quackBehavior = new Quack();
+    }
+
+    public void display() {
+        System.out.println("I'm a model duck");
+    }
+}
+```
+
+> [!NOTE]
+> Our model duck begins life grounded... without a way to fly.
+
+**3. Make a new FlyBehavior Type (`FlyRocketPowered.java`)**
+
+```java
+public class FlyRocketPowered implements FlyBechavior {
+    public void fly() {
+        System.out.println("I'm flying with a rocket!");
+    }
+}
+```
+
+> [!NOTE]
+>
+> That's okay, we're creating a rocket powered flying behavior.
 
 ### An entire solution
 
-![alt text](image-52.png)
+Pay careful attention to the relationships between the classes. In fact, grab your pen and write the appropriate relationship (IS-A, HAS-A, and IMPLEMENTS) on each arrow in the class diagram.
 
 ![alt text](image-53.png)
 
 ### Design Principle
 
-![alt text](image-55.png)
+**Favor composition over inheritance.**
 
-![alt text](image-54.png)
+> [!IMPORTANT]
+>
+> **HAS-A can be better than IS-A**
+>
+> The HAS-A relationship is an interesting one: each duck has a FlyBehavior and a QuackBehavior to which it delegates flying and quacking.
+>
+> When you put two classes together like this you're using `composition`. Instead of `inheriting` their behavior, the ducks get their behavior by being `composed` with the right behavior object.
+>
+> This is an important technique; in fact, we've been using our third design principle: **Favor composition over inheritance**.
+
 
 > [!NOTE]
 > Has a bettere than Is a (composition is better than inheritance)
 
 
-## Singleton
+## Singleton Pattern
 
-Rationale and Motivation 
+Rationale and Motivation
 
 - The singleton pattern applies to the many situations in which there needs to be a single instance of a class, a single object. It is often left up to the programmer to insure that the
 - An important consideration in implementing this pattern is how to make this single instance easily accessible by many other objects. 
@@ -326,7 +555,7 @@ Singleton *Singleton::Instance() {
 > [!NOTE]
 > No class can use the constructor to new a singleton object
 
-## DEEP TALK on Singleton
+## DEEP TALK on Singleton Pattern
 
 > [!NOTE]
 > In Java, we use `static` to create a singleton object. BUT IT COULD BE WORSED!! IF YOU DON'T KNOW WHY?
@@ -446,12 +675,14 @@ class wife {
 
 #### To call singleton methods
 
-In `C++`:
+**In `C++`:**
+
 ```cpp
 wife.getInstance()->getMoney()
 ```
 
-In `Java` or `C#`:
+**In `Java` or `C#`:**
+
 ```java
 wife.getInstance().getMoney()
 ```
@@ -506,7 +737,7 @@ public class Singleton {
 > - Essentially, `volatile` is used to indicate that a **variable's value will be modified by different threads**
 > 
 > **Declaring a volatile Java variable means:**
-> - The value of this variable will never **be cached thread-locally**: all reads and writes will **go straight to "main memory"**; 
+> - The value of this variable will never **be cached thread-locally**: all reads and writes will **go straight to "main memory"**;
 > - Access to the variable acts as though it is **enclosed in a synchronized block**, synchronized on **itself**.
 
 > [!NOTE]
@@ -515,7 +746,7 @@ public class Singleton {
 >
 > 👉🏻 Do nothing if the performance of `getInstance()` is not critical to your application.
 >
-> THAT'S RIGHT!!! If calling the `getInstance()` method isn't causing substantial overhead for your application, forget about it. Synchronizing `getInstance()` is **straightforward and effective.** Just keep in mind that synchronizing a method can d**ecrease performance by a factor of 100**, so if a high traffic part of your code begins using `getInstance()`, you may have to reconsider.
+> THAT'S RIGHT!!! If calling the `getInstance()` method isn't causing substantial overhead for your application, forget about it. Synchronizing `getInstance()` is **straightforward and effective.** Just keep in mind that synchronizing a method can **decrease performance by a factor of 100**, so if a high traffic part of your code begins using `getInstance()`, you may have to reconsider.
 
 
 
@@ -583,7 +814,7 @@ Every Java object created, including every Class loaded, has an **associated loc
 > - **Should I simply convert a global variable to Singleton to resolve the evil?** Converting to the SingletonPattern is common, but you may discover that it makes more sense for the data element to be **a member of an existing singleton**, or maybe even **an instance variable**.
 
 
-## Composite
+## Composite Pattern
 
 在圖形編輯器這種圖形化應用程式裡，常會用小零件拼出複雜的圖形，也會將幾個小零件結合成較大的群組物件。這個群組物件又可以當成零件來拼出更大的圖形。欲達此目的，直覺能想到的就是採用下面的 class diagram 繼承架構，其中 group 是一個所謂的容器物件。
 
@@ -700,7 +931,7 @@ chassis->Add(new FloppyDisk("3.5in Floppy“);
 cout << "The net price is " ? chassis->NetPrice() ? end
 ```
 
-## Proxy
+## Proxy Pattern
 
 - 我們想要延緩一個物件的建立與初始化，原因是物件的建立與初始化需要速度與記憶體等等代價
 - 我們希望當物件真正需要的時候才進行建立與初始化（on demand)
@@ -800,7 +1031,7 @@ TextDocument *text = new TextDocument;
 text->Insert(new ImageProxy("anImageFileName");
 ```
 
-## Observer
+## Observer Pattern
 
 Intent: Define a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.
 
@@ -810,7 +1041,7 @@ Intent: Define a one-to-many dependency between objects so that when one object 
 
 ![alt text](image-9.png)
 
-## Strategy
+## Strategy Pattern
 
 Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it. Also Known As Policy
 
@@ -890,7 +1121,7 @@ Composition *slick = new Composition(new TeXCompositor);
 Composition *iconic = new Composition(new ArrayCompositor);
 ```
 
-## Visitor
+## Visitor Pattern
 
 Represent an operation to be performed on the elements of an object structure. Visitor lets you define a new operation without changing the classes of the elements on which it operates.
 
