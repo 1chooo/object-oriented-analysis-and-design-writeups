@@ -12,6 +12,7 @@
   - [Suggestions](#suggestions)
 - [Talk about the Strategy of Design Pattern](#talk-about-the-strategy-of-design-pattern)
   - [The OO design](#the-oo-design)
+    - [How about an Interface?](#how-about-an-interface)
     - [Truth](#truth)
   - [Recall the purpose of SE and OOAD](#recall-the-purpose-of-se-and-ooad)
   - [Design Principle](#design-principle)
@@ -154,6 +155,7 @@ if (type == "wop") {
 4. See through the nature of your problem and find a design pattern to address it.
 
 > [!NOTE]
+> 
 > Please focus on the future change and extension of your software, once your software even no requirements to change, you can ignore the design pattern.
 
 ## Talk about the Strategy of Design Pattern
@@ -167,7 +169,34 @@ Joe works for a company that makes a highly successful duck pond simulation game
 
 ### The OO design
 
-![alt text](image-18.png)
+```mermaid
+classDiagram
+    note "Author: Hugo"
+    class Duck {
+        + void quack()
+        + void swim()
+        + void display()
+        // Other duck-like methods()
+    }
+
+    class MallardDuck {
+        + void display() // looks like a Mallard
+    }
+
+    class RedheadDuck {
+        + void display() // looks like a Redhead
+    }
+
+    MallardDuck --|> Duck : Inheritance
+    RedheadDuck --|> Duck : Inheritance
+```
+
+> [!NOTE]
+>
+> - All ducks quack and swim, the superclass takes care of the implementation code.
+> - Each duck subtype is reponsible for implementing its own `display()` behavior for how it looks on the screen.
+> - The `display()` method is `abstract`, since all duck subtypes look different.
+
 
 > [!WARNING]
 >
@@ -177,34 +206,196 @@ Joe works for a company that makes a highly successful duck pond simulation game
 >
 > ![alt text](image-19.png)
 
-![alt text](image-20.png)
+> **Joe:** 
+> 
+> I just need to add a `fly()` method in the Duck class and then all the ducks will inherit it. Now's my time to really show my true OO genius.
 
-![alt text](image-21.png)
+```mermaid
+classDiagram
+    note "Author: Hugo"
+    class Duck {
+        + void quack()
+        + void swim()
+        + void display()
+        + void fly()  // what Joe added
+        // Other duck-like methods()
+    }
+
+    class MallardDuck {
+        + void display() // looks like a Mallard
+    }
+
+    class RedheadDuck {
+        + void display() // looks like a Redhead
+    }
+
+    MallardDuck --|> Duck : Inheritance
+    RedheadDuck --|> Duck : Inheritance
+```
+
+> [!NOTE]
+> All subclasses inherit `fly()`
+
 
 > [!WARNING]
 >
-> Something horribly wrong
+> **Something horribly wrong**
 >
-> ![alt text](image-22.png)
+> **Joe's Boss:** 
+> 
+> Joe, I'm at the shareholder's meeting. They just gave a demo and there were **rubber duckies flying around the screen**. Was this your idea of a joke? You might want to spend time on `Monster.com` ...
+
+
+> **What happened?**
+> 
+> Joe failed to notice that not all subclasses of Duck should *fly*. When Joe added new behavior to the Duck superclass, he was also adding behavior that was **NOT** appropriate for some Duck subclasses. He now has flying inanimate objects in the SimUDuck program.
+> 
+> *A localized update to the code caused a non-local side effect (flying rubber ducks)!*
+
 
 ![alt text](image-23.png)
 
-![alt text](image-24.png)
+> What he thought was a great use of inheritance for the purpose of **REUSE** hasn't turned out so well when it comes to **MAINTENANCE**.
 
-![alt text](image-25.png)
+```mermaid
+classDiagram
+    note "Author: Hugo"
+    class Duck {
+        + void quack()
+        + void swim()
+        + void display()
+        + void fly()  // what Joe added
+        // Other duck-like methods()
+    }
 
-![alt text](image-26.png)
+    class MallardDuck {
+        + void display() // looks like a Mallard
+    }
 
-![alt text](image-27.png)
+    class RedheadDuck {
+        + void display() // looks like a Redhead
+    }
 
-![alt text](image-28.png)
+    class RubberDuck {
+        + void quack() // overriden to Squeak
+        + void display() // looks like a RubberDuck
+    }
+
+    MallardDuck --|> Duck : Inheritance
+    RedheadDuck --|> Duck : Inheritance
+```
+
+> [!NOTE]
+>
+> By putting `fly()` in the superclass he gave flying ability to ALL ducks, including those that shouldn't fly.
+>
+> Rubber ducks don't quack, so `quack()` is overridden to "Squeak."
+
+> **Joe:** 
+> 
+> I could always just overrid the `fly()` method in rubber duck, the way I am with the `quack()` method...
+
+```mermaid
+classDiagram
+    note "Author: Hugo"
+    class RubberDuck {
+        + void quack() // overriden to Squeak
+        + void display() // looks like a RubberDuck
+        + void fly() // overriden to do nothing
+    }
+```
+
+> **Joe:**
+> 
+> But then what happens when we add wooden decoy ducks to the program? They aren't supposed to fly or quack...
+
+```mermaid
+classDiagram
+    note "Author: Hugo"
+    class DecoyDuck {
+        + void display() // looks like a DecoyDuck
+        + void fly() // overriden to do nothing
+        + void quack() // overriden to do nothing
+    }
+```
+
+> [!NOTE]
+>
+> Here's another class in the hierarchy; notice that like `RubberDuck`, it doesn't fly, but it also doesn't quack.
+
+#### How about an Interface?
+
+Joe realized that inheritance probably wasn't the answer, because he just got a memo that says that the executives now want to update the product every six months (in ways they haven't yet decided on). Joe knows the spec will keep changing and he'll be forced to look at and possibly override `fly()` and `quack()` for every new Duck subclass that's ever added to the program ... *forever*.
+
+So, he needs a cleaner way to have only *some* (but not *all*) of the ducks types fly or quack.
+
+> **Joe:** 
+> 
+> I could take the `fly()` out of the Duck superclass, and make a ***`Flyable()` interface*** with a `fly()` method. That way, only the ducks that are supposed to fly will implement that interface and have a `fly()` method ... and I might as well make a Quackable, too, since not all ducks can quack.
+
+```mermaid
+classDiagram
+    note "Author: Hugo"
+    class Duck {
+        + void swim()
+        + void display()
+        // Other duck-like methods()
+    }
+
+    class MallardDuck {
+        + void display()
+        + void fly()
+        + void quack()
+    }
+
+    class RedheadDuck {
+        + void display()
+        + void fly()
+        + void quack()
+    }
+
+    class RubberDuck {
+        + void display()
+        + void quack()
+    }
+    
+    class DecoyDuck {
+        + void display()
+    }
+
+    class Flyable {
+        <<interface>>
+        + void fly()
+    }
+
+    class Quackable {
+        <<interface>>
+        + void quack()
+    }
+
+    MallardDuck --|> Duck : Inheritance
+    RedheadDuck --|> Duck : Inheritance
+    RubberDuck --|> Duck : Inheritance
+    DecoyDuck --|> Duck : Inheritance
+
+    MallardDuck ..|> Flyable : Implements
+    RedheadDuck ..|> Flyable : Implements
+
+    MallardDuck ..|> Quackable : Implements
+    RedheadDuck ..|> Quackable : Implements
+    RubberDuck ..|> Quackable : Implements
+```
+
+
+> [!IMPORTANT]
+>
+> WHAT DO YOU THINK ABOUT THIS DESIGN?
 
 #### Truth
 
-![alt text](image-29.png)
-
-![alt text](image-30.png)
-
+> **Joe's Boss:**
+> 
+> That is, like, the dumbest idea you've come up with. **Can you say, "duplicate code"?** If you thought having to override a few methods was bad, how are you gonna feel when you need to make a little change to the flying behavior... in all 48 of the flying Duck subclasses?!
 
 We know that not *all* of the subclasses should have flying or quacking behavior, so inheritance isn't the right answer. But while having the subclasses implement Flyable and/or Quackable soves *part* of the problem (no inappropriately flying rubber ucks), it completely destroys code reuse for those behaviors, so it just creates a **different** maintenance nightmare. And of course there might be more than one kind of flying behavior even amoung the ducks that **do** fly...
 
@@ -212,9 +403,9 @@ At this point you migh be waiting for a Design Pattern to come riging in on a wh
 
 ### Recall the purpose of SE and OOAD
 
-![alt text](image-32.png)
+> : Wouldn't it be dreamy if only there were a way to build software so that when we need to change it, we could do so with the least possible impact on the existing code? We could spend less time reworking code and more making the program do cooler things...
 
-So we know using inheritance hasn't worked out very well, since the duck behavior keeps changing across the subclasses, and it's not appropriate for **all** subclasses to have those behaviors. The `Flyable` and `Quackable` interface sounded promising at first -- only ducks that really do fly will be Flyable, etc. -- except Java interfaces have no implementation code, so no code reuse. And that means what whenever you need to modify a behavior, you're forced to track down and change it in all the different subclasses where that behavior id defined, probably introducing new *bugs* along the way.
+So we know using inheritance hasn't worked out very well, since the duck behavior keeps changing across the subclasses, and it's not appropriate for **all** subclasses to have those behaviors. The `Flyable` and `Quackable` interface sounded promising at first -- only ducks that really do fly will be Flyable, etc. -- except Java interfaces have no implementation code, **so no code reuse**. And that means what whenever you need to modify a behavior, you're forced to track down and change it in all the different subclasses where that behavior id defined, probably introducing new *bugs* along the way.
 
 > [!NOTE]
 > Java's Interface no code in it, just a declaration, 
@@ -247,19 +438,139 @@ To separate these behaviors from the Duck class, we'll pull both methods out of 
 >
 > Program to an interface, not an implementation
 
-![alt text](image-39.png)
+```mermaid
+classDiagram
+    note "Author: Hugo"
+    class FlyWithWings {
+        + void fly() // implements duck flying
+    }
 
-![alt text](image-40.png)
+    class FlyNoWay {
+        + void fly() // do nothing - can't fly!
+    }
 
+    FlyNoWay ..|> FlyBehavior : Implements
+    FlyWithWings ..|> FlyBehavior : Implements
+```
+
+```mermaid
+classDiagram
+    note "Author: Hugo"
+    class Animal {
+        + void makeSound()
+    }
+
+    class Dog {
+        + void makeSound() // bark()
+        + void bark()
+    }
+
+    class Cat {
+        + void makeSound() // meow()
+        + void meow()
+    }
+
+    Dog ..|> Animal : Concrete Implementation
+    Cat ..|> Animal : Concrete Implementation
+```
+
+> [!NOTE]
+>
+> `abstract` supertype (could be an abstract class OR interface)
+
+**Programming to an implementation** would be:
+
+```java
+Dog d = new Dog();
+d.bark();
+```
+
+> [!NOTE]
+>
+> Declaring the variable `d` as type `Dog` (a concrete implementation of `Animal`) forces us to code to a concrete implementation.
+
+But **programming to an interface/supertype** would be:
+
+```java
+Animal animal = new Dog();
+animal.makeSound();
+```
+
+> [!NOTE]
+>
+> We know it's a Dog, but we can now use the animal reference polymorphically.
 
 > [!NOTE]
 > `Animal dog = new Dog();` NOT `Dog dog = new Dog();`
 > 
 > Animal 才是所謂的 Core 程式碼
 
+Even better rather than hard-coding the instantiation of the subtype (like `new Dog()`) into the code, **assign the concrete implementation object at runtime.**
+
+```java
+a = getAnimal();
+animal.makeSound();
+```
+
+> [!NOTE]
+>
+> We don't know WHAT the actual animal subtype is ... all we care about is that it knows how to respond to `makeSound()`.
+
 ### What is polymorphism?
 
-![alt text](image-41.png)
+```mermaid
+classDiagram
+    note "Author: Hugo"
+    class FlyBehavior {
+        <<interface>>
+        + void fly()
+    }
+
+    class FlyWithWings {
+        + void fly() // implements duck flying
+    }
+
+    class FlyNoWay {
+        + void fly() // do nothing - can't fly!
+    }
+
+    class QuackBehavior {
+        <<interface>>
+        + void quack()
+    }
+
+    class Quack {
+        + void quack()  // implements duck quacking
+    }
+
+    class Squeak {
+        + void quack()  // implements duck squeaking
+    }
+
+    class MuteQuack {
+        + void quack()  // do nothing - can't quack!
+    }
+
+    FlyWithWings ..|> FlyBehavior : Concrete Implementation
+    FlyNoWay ..|> FlyBehavior : Concrete Implementation
+
+    Quack ..|> QuackBehavior : Concrete Implementation
+    Squeak ..|> QuackBehavior : Concrete Implementation
+    MuteQuack ..|> QuackBehavior : Concrete Implementation
+```
+
+> [!NOTE]
+>
+> - `FlyBehavior`: Here we have an interface that all flying classes implement. All new flying classes just need to implement the fly method
+> - `FlyWithWings`: Here's the implementation of flying for all ducks that have wings
+> - `FlyNoWay`: And here's the implementation of all ducks that can't fly.
+
+> [!NOTE]
+>
+> - `QuackBehavior`: Same thing here for the quack behavior; we have an interface that just includes a `quack()` method that needs to be implemented.
+> - `Quack`: Quacks that really quack.
+> - `Squeak`: Quacks that squeak.
+> - `MuteQuack`: Quacks that make no sound at all.
 
 
 With this design, other types of objects can reuse our fly and quck behaviors because these behaviors are no longer hidden away in our Duck classes!
@@ -283,6 +594,7 @@ And we can add new behaviors without modifying any of our existing behavior clas
 
 <!-- ```mermaid
 classDiagram
+    note "Author: Hugo"
     class Duck {
         - FlyBehavior flyBehavior
         - QuackBehavior quackBehavior
@@ -441,6 +753,7 @@ public void setQuackBehavior(QuackBehavior qb) {
 
 ```mermaid
 classDiagram
+    note "Author: Hugo"
     class Duck {
         - FlyBehavior flyBehavior
         - QuackBehavior quackBehavior
@@ -495,6 +808,89 @@ public class FlyRocketPowered implements FlyBechavior {
 Pay careful attention to the relationships between the classes. In fact, grab your pen and write the appropriate relationship (IS-A, HAS-A, and IMPLEMENTS) on each arrow in the class diagram.
 
 ![alt text](image-53.png)
+
+```mermaid
+classDiagram
+note "Author: Hugo"
+namespace Client {
+    class Duck {
+        FlyBehavior flyBehavior
+        QuackBehavior quackBehavior
+    }
+    class MallardDuck {
+        + void display()    // looks like a Mallard
+    }
+    class RedheadDuck {
+        + void display()    // looks like a redhead
+    }
+    class RubberDuck {
+        + void display()    // looks like a rubber duck
+    }
+    class DecoyDuck {
+        + void display()    // looks like a decoy duck
+    }
+}
+
+namespace Encapsulated fly behavior {
+    class FlyBehavior {
+        <<abstract>>
+        + void fly()
+    }
+
+    class FlyWithWings {
+        + void fly()    // implements duck flying
+    }
+
+    class FlyNoWay {
+        + void fly()    // do nothing - can't fly!
+    }
+}
+
+namespace Encapsulated quack behavior {
+    class QuackBehavior {
+        <<abstract>>
+        + void quack()
+    }
+
+    class Quack {
+        + void quack()    // implements duck quacking
+    }
+
+    class Squeak {
+        + void quack()    // implements duck squeaking
+    }
+
+    class MuteQuack {
+        + void quack()    // do nothing - can't quack!
+    }
+}
+
+MallardDuck --|> Duck : Inheritance
+RedheadDuck --|> Duck : Inheritance
+RubberDuck --|> Duck : Inheritance
+DecoyDuck --|> Duck : Inheritance
+
+FlyWithWings ..|> FlyBehavior : Composition
+FlyNoWay ..|> FlyBehavior : Composition
+
+Quack ..|> QuackBehavior : Composition
+Squeak ..|> QuackBehavior : Composition
+MuteQuack ..|> QuackBehavior : Composition
+
+Duck --> FlyBehavior : Association
+Duck --> QuackBehavior : Association
+```
+
+> [!NOTE]
+> 
+> Client makes use of an encapsulated family of algorithms for both flying and quacking.
+
+
+> [!NOTE]
+>
+> Think of each set of behaviors as a family of algorithms.
+
+
 
 ### Design Principle
 
@@ -692,6 +1088,7 @@ wife.getInstance().getMoney()
 
 ```mermaid
 classDiagram
+    note "Author: Hugo"
     class Singleton {
         - static Singleton uniqueInstance
         // Other useful Singleton Data...
@@ -820,6 +1217,7 @@ Every Java object created, including every Class loaded, has an **associated loc
 
 ```mermaid
 classDiagram
+    note "Author: Hugo"
     class aPicture {
     }
     class aText {
