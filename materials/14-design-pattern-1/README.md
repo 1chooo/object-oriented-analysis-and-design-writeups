@@ -807,8 +807,6 @@ public class FlyRocketPowered implements FlyBechavior {
 
 Pay careful attention to the relationships between the classes. In fact, grab your pen and write the appropriate relationship (IS-A, HAS-A, and IMPLEMENTS) on each arrow in the class diagram.
 
-![alt text](image-53.png)
-
 ```mermaid
 classDiagram
 note "Author: Hugo"
