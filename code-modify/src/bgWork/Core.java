@@ -8,6 +8,7 @@ import bgWork.handler.MenuBarHandler;
 import mod.instance.AssociationLine;
 import mod.instance.BasicClass;
 import mod.instance.CompositionLine;
+import mod.instance.DependencyLine;
 import mod.instance.GeneralizationLine;
 import mod.instance.GroupContainer;
 import mod.instance.UseCase;
@@ -100,7 +101,7 @@ public class Core extends InitProcess
 
 	public boolean isDependencyLine(Object obj)
 	{
-		return obj instanceof AssociationLine;
+		return obj instanceof DependencyLine;
 	}
 
 	public int isLine(Object obj)
