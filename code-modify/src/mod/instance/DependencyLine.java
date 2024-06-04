@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Polygon;
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
@@ -40,6 +41,14 @@ public class DependencyLine extends JPanel
 	@Override
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g); 
+
+		Graphics2D g2d = (Graphics2D) g;
+		float[] dashPattern = {10, 10}; // 10 pixels drawn, 10 pixels not drawn -> dotted line
+		g2d.setStroke(new BasicStroke(
+				1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 
+			10, dashPattern, 0));
+
 		Point fpPrime;
 		Point tpPrime;
 		renewConnect();
@@ -47,11 +56,11 @@ public class DependencyLine extends JPanel
 				fp.y - this.getLocation().y);
 		tpPrime = new Point(tp.x - this.getLocation().x,
 				tp.y - this.getLocation().y);
-		g.drawLine(fpPrime.x, fpPrime.y, tpPrime.x, tpPrime.y);
-		paintArrow(g, tpPrime);
+		g2d.drawLine(fpPrime.x, fpPrime.y, tpPrime.x, tpPrime.y);
+		paintArrow(g2d, tpPrime);
 		if (isSelect == true)
 		{
-			paintSelect(g);
+			paintSelect(g2d);
 		}
 	}
 
@@ -69,36 +78,6 @@ public class DependencyLine extends JPanel
 	public void paintArrow(Graphics g, Point point)
 	{
 		// TODO Auto-generated method stub
-		int x[] =
-		{point.x, point.x - arrowSize, point.x, point.x + arrowSize};
-		int y[] =
-		{point.y + arrowSize, point.y, point.y - arrowSize, point.y};
-		switch (toSide)
-		{
-			case 0:
-				x = removeAt(x, 0);
-				y = removeAt(y, 0);
-				break;
-			case 1:
-				x = removeAt(x, 1);
-				y = removeAt(y, 1);
-				break;
-			case 2:
-				x = removeAt(x, 3);
-				y = removeAt(y, 3);
-				break;
-			case 3:
-				x = removeAt(x, 2);
-				y = removeAt(y, 2);
-				break;
-			default:
-				break;
-		}
-		Polygon polygon = new Polygon(x, y, x.length);
-		g.setColor(Color.BLACK);
-		g.fillPolygon(polygon);
-		g.setColor(Color.BLACK);
-		g.drawPolygon(polygon);
 	}
 
 	int[] removeAt(int arr[], int index)
