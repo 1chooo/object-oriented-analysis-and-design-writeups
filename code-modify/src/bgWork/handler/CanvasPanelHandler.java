@@ -18,6 +18,7 @@ import bgWork.InitProcess;
 import mod.instance.AssociationLine;
 import mod.instance.BasicClass;
 import mod.instance.CompositionLine;
+import mod.instance.DependencyLine;
 import mod.instance.GeneralizationLine;
 import mod.instance.GroupContainer;
 import mod.instance.UseCase;
@@ -63,6 +64,7 @@ public class CanvasPanelHandler extends PanelHandler
 			case 1:
 			case 2:
 			case 3:
+			case 6:
 				break;
 			case 4:
 			case 5:
@@ -84,6 +86,7 @@ public class CanvasPanelHandler extends PanelHandler
 			case 1:
 			case 2:
 			case 3:
+			case 6:
 				addLine(core.getCurrentFunc(), dp);
 				break;
 			case 4:
@@ -392,6 +395,9 @@ public class CanvasPanelHandler extends PanelHandler
 					case 2:
 						((GeneralizationLine) funcObj).setConnect(dPack);
 						break;
+					case 6:
+						((DependencyLine) funcObj).setConnect(dPack);
+						break;
 					default:
 						break;
 				}
@@ -518,6 +524,9 @@ public class CanvasPanelHandler extends PanelHandler
 				break;
 			case 5:
 				((GroupContainer) obj).setSelect(isSelect);
+				break;
+			case 6:
+				((DependencyLine) obj).setSelect(isSelect);
 				break;
 			default:
 				break;

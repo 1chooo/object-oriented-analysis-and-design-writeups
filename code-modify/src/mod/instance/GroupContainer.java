@@ -22,6 +22,30 @@ public class GroupContainer extends JPanel implements IFuncComponent
 		this.core = process;
 	}
 
+	public GroupContainer(LayoutManager layout)
+	{
+		super(layout);
+		// TODO Auto-generated constructor stub
+	}
+
+	public GroupContainer(boolean isDoubleBuffered)
+	{
+		super(isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+	public GroupContainer(LayoutManager layout, boolean isDoubleBuffered)
+	{
+		super(layout, isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void reSize()
+	{
+		// TODO Auto-generated method stub
+	}
+
 	public boolean isSelect()
 	{
 		return isSelect;
@@ -58,34 +82,14 @@ public class GroupContainer extends JPanel implements IFuncComponent
 						((GroupContainer) this.getComponent(i))
 								.setSelect(isSelect);
 						break;
+					case 6:
+						((DependencyLine) this.getComponent(i))
+								.setSelect(isSelect);
+						break;
 					default:
 						break;
 				}
 			}
 		}
-	}
-
-	public GroupContainer(LayoutManager layout)
-	{
-		super(layout);
-		// TODO Auto-generated constructor stub
-	}
-
-	public GroupContainer(boolean isDoubleBuffered)
-	{
-		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
-	}
-
-	public GroupContainer(LayoutManager layout, boolean isDoubleBuffered)
-	{
-		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void reSize()
-	{
-		// TODO Auto-generated method stub
 	}
 }

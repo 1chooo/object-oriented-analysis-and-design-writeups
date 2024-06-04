@@ -98,6 +98,11 @@ public class Core extends InitProcess
 		return obj instanceof GeneralizationLine;
 	}
 
+	public boolean isDependencyLine(Object obj)
+	{
+		return obj instanceof AssociationLine;
+	}
+
 	public int isLine(Object obj)
 	{
 		if (isAssociationLine(obj))
@@ -111,6 +116,10 @@ public class Core extends InitProcess
 		else if (isGeneralizationLine(obj))
 		{
 			return 2;
+		}
+		else if (isDependencyLine(obj))
+		{
+			return 6;
 		}
 		return -1;
 	}
@@ -145,6 +154,10 @@ public class Core extends InitProcess
 		else if (isGroupContainer(obj))
 		{
 			return 5;
+		}
+		else if (isDependencyLine(obj))
+		{
+			return 6;
 		}
 		return -1;
 	}
