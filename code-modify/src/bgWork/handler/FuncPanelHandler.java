@@ -97,8 +97,8 @@ public class FuncPanelHandler extends PanelHandler
 	public void setCurrentBtn(int index)
 	{
 		this.currIndex = index;
-		System.out.println("Current index: " + currIndex);
 		check();
+		System.out.println("Current index: " + currIndex);
 	}
 
 	public JPanel getCurrentFunc()
@@ -127,6 +127,7 @@ public class FuncPanelHandler extends PanelHandler
 				return new ImageIcon("icon/class.jpg");
 			case 5:
 				return new ImageIcon("icon/use_case.jpg");
+			// TODO
 			case 6:
 				return new ImageIcon("icon/dependency_line.jpg");
 			default:

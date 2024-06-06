@@ -134,9 +134,23 @@ public class AssociationLine extends JPanel
 	@Override
 	public void paintSelect(Graphics gra)
 	{
+		/* 
+		 * 這邊可以用來實作點選到線條會有 HighLight 
+		 * 因為原始 Code 就是會把透過 Line 相連的 Port Highlight 
+		 */
 		gra.setColor(Color.BLACK);
 		gra.fillRect(fp.x, fp.y, selectBoxSize, selectBoxSize);
 		gra.fillRect(tp.x, tp.y, selectBoxSize, selectBoxSize);
+
+		Point fpPrime;
+		Point tpPrime;
+		fpPrime = new Point(fp.x - this.getLocation().x,
+				fp.y - this.getLocation().y);
+		tpPrime = new Point(tp.x - this.getLocation().x,
+				tp.y - this.getLocation().y);
+
+		gra.setColor(Color.RED);
+		gra.drawLine(fpPrime.x, fpPrime.y, tpPrime.x, tpPrime.y);
 	}
 
 	public boolean isSelect()
@@ -147,5 +161,12 @@ public class AssociationLine extends JPanel
 	public void setSelect(boolean isSelect)
 	{
 		this.isSelect = isSelect;
+	}
+
+	public boolean checkOnSide(JPanel jPanel, int side) {
+		if ((from == jPanel && fromSide == side) || (to == jPanel && toSide == side)) {
+			return true;
+		}
+		return false;
 	}
 }

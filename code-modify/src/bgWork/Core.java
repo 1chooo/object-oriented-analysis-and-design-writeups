@@ -120,7 +120,7 @@ public class Core extends InitProcess
 		}
 		else if (isDependencyLine(obj))
 		{
-			return 6;
+			return 3;
 		}
 		return -1;
 	}

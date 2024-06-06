@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import Define.AreaDefine;
 import Listener.CPHActionListener;
 import Pack.DragPack;
 import Pack.SendText;
@@ -145,6 +146,49 @@ public class CanvasPanelHandler extends PanelHandler
 			}
 		}
 		repaintComp();
+	}
+
+	void selectBySide(JPanel selectedJPanel, Point clickedPoint) {
+		// find side by clickedPoint on selectedJPanel (already inside the JPanel)
+
+		/** currArea (aka. the side where clickedPoint is in the selectedJPanel) */
+		int currArea = new AreaDefine().getArea(selectedJPanel.getLocation(), selectedJPanel.getSize(), clickedPoint);
+
+		for (int i = 0; i < members.size(); i++) {
+			JPanel currJPanel = members.elementAt(i);
+			switch (core.isFuncComponent(currJPanel)) {
+				case 2:
+					if (((AssociationLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
+						((AssociationLine) currJPanel).setSelect(true);
+					} else {
+						((AssociationLine) currJPanel).setSelect(false);
+					}
+					break;
+				// case 3:
+				// 	if (((CompositionLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
+				// 		((CompositionLine) currJPanel).setSelect(true);
+				// 	} else {
+				// 		((CompositionLine) currJPanel).setSelect(false);
+				// 	}
+				// 	break;
+				// case 4:
+				// 	if (((GeneralizationLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
+				// 		((GeneralizationLine) currJPanel).setSelect(true);
+				// 	} else {
+				// 		((GeneralizationLine) currJPanel).setSelect(false);
+				// 	}
+				// 	break;
+				// case 6:
+				// 	if (((DependencyLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
+				// 		((DependencyLine) currJPanel).setSelect(true);
+				// 	} else {
+				// 		((DependencyLine) currJPanel).setSelect(false);
+				// 	}
+				// 	break;
+				default:
+					break;
+			}
+		}
 	}
 
 	boolean groupIsSelect(GroupContainer container, Point point)
