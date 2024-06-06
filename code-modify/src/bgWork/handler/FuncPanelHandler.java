@@ -15,10 +15,10 @@ import bgWork.InitProcess;
 import mod.instance.AssociationLine;
 import mod.instance.BasicClass;
 import mod.instance.CompositionLine;
+import mod.instance.DependencyLine;
 import mod.instance.GeneralizationLine;
 import mod.instance.SelectComp;
 import mod.instance.UseCase;
-import mod.instance.DependencyLine;
 
 public class FuncPanelHandler extends PanelHandler {
 	Dimension btnSize = new Dimension(50, 50);
@@ -87,7 +87,6 @@ public class FuncPanelHandler extends PanelHandler {
 	public void setCurrentBtn(int index) {
 		this.currIndex = index;
 		check();
-		System.out.println("Current index: " + currIndex);
 	}
 
 	public JPanel getCurrentFunc() {
@@ -109,12 +108,11 @@ public class FuncPanelHandler extends PanelHandler {
 			case 3:
 				return new ImageIcon("icon/composition_line.jpg");
 			case 4:
-				return new ImageIcon("icon/class.jpg");
-			case 5:
-				return new ImageIcon("icon/use_case.jpg");
-			// TODO
-			case 6:
 				return new ImageIcon("icon/dependency_line.jpg");
+			case 5:
+				return new ImageIcon("icon/class.jpg");
+			case 6:
+				return new ImageIcon("icon/use_case.jpg");
 			default:
 				return null;
 		}
@@ -131,12 +129,11 @@ public class FuncPanelHandler extends PanelHandler {
 			case 3:
 				return new CompositionLine(core.getCanvasPanelHandler());
 			case 4:
-				return new BasicClass(core.getCanvasPanelHandler());
-			case 5:
-				return new UseCase(core.getCanvasPanelHandler());
-			// TODO
-			case 6:
 				return new DependencyLine(core.getCanvasPanelHandler());
+			case 5:
+				return new BasicClass(core.getCanvasPanelHandler());
+			case 6:
+				return new UseCase(core.getCanvasPanelHandler());
 			default:
 				return null;
 		}

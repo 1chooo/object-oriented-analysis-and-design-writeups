@@ -2,15 +2,13 @@ package Listener;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import Pack.DragPack;
 import bgWork.handler.CanvasPanelHandler;
 import bgWork.handler.PanelHandler;
 
-public class CPHActionListener extends HandlerActionListener
-		implements MouseMotionListener, MouseListener {
+public class CPHActionListener extends HandlerActionListener implements MouseMotionListener {
 	Point from = new Point(0, 0);
 	Object fromObj;
 	Point to = new Point(0, 0);
@@ -39,6 +37,7 @@ public class CPHActionListener extends HandlerActionListener
 			((CanvasPanelHandler) handler).ActionPerformed(dp);
 		} catch (Exception excp) {
 			// TODO: handle exception
+			System.out.println("ERROR: " + excp);
 		}
 		clear();
 	}

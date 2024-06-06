@@ -1,9 +1,9 @@
 package mod.instance;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.LayoutManager;
 import javax.swing.JPanel;
-import java.awt.Graphics;
 
 import bgWork.Core;
 import bgWork.InitProcess;
@@ -27,9 +27,8 @@ public class GroupContainer extends JPanel implements IFuncComponent {
 		g.drawRect(0, 0, (int) this.getSize().getWidth() - 1, (int) this.getSize().getHeight() - 1);
 	}
 
-	@Override
-	public void reSize() {
-		// TODO Auto-generated method stub
+	public boolean isSelect() {
+		return isSelect;
 	}
 
 	public void setSelect(boolean isSelect) {
@@ -44,24 +43,19 @@ public class GroupContainer extends JPanel implements IFuncComponent {
 						((UseCase) this.getComponent(i)).setSelect(isSelect);
 						break;
 					case 2:
-						((AssociationLine) this.getComponent(i))
-								.setSelect(isSelect);
+						((AssociationLine) this.getComponent(i)).setSelect(isSelect);
 						break;
 					case 3:
-						((CompositionLine) this.getComponent(i))
-								.setSelect(isSelect);
+						((CompositionLine) this.getComponent(i)).setSelect(isSelect);
 						break;
 					case 4:
-						((GeneralizationLine) this.getComponent(i))
-								.setSelect(isSelect);
+						((GeneralizationLine) this.getComponent(i)).setSelect(isSelect);
 						break;
 					case 5:
-						((GroupContainer) this.getComponent(i))
-								.setSelect(isSelect);
+						((DependencyLine) this.getComponent(i)).setSelect(isSelect);
 						break;
 					case 6:
-						((DependencyLine) this.getComponent(i))
-								.setSelect(isSelect);
+						((GroupContainer) this.getComponent(i)).setSelect(isSelect);
 						break;
 					default:
 						break;
@@ -85,7 +79,8 @@ public class GroupContainer extends JPanel implements IFuncComponent {
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean isSelect() {
-		return isSelect;
+	@Override
+	public void reSize() {
+		// TODO Auto-generated method stub
 	}
 }
