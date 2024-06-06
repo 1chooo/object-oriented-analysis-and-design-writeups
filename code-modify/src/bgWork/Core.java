@@ -111,9 +111,9 @@ public class Core extends InitProcess {
 			return 3;
 		} else if (isGeneralizationLine(obj)) {
 			return 4;
-		} else if (isGroupContainer(obj)) {
-			return 5;
 		} else if (isDependencyLine(obj)) {
+			return 5;
+		} else if (isGroupContainer(obj)) {
 			return 6;
 		}
 		return -1;

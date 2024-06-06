@@ -3,7 +3,6 @@ package mod.instance;
 import java.awt.Color;
 import java.awt.LayoutManager;
 import javax.swing.JPanel;
-import java.awt.Graphics;
 
 import bgWork.Core;
 import bgWork.InitProcess;
@@ -21,15 +20,23 @@ public class GroupContainer extends JPanel implements IFuncComponent {
 		this.core = process;
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawRect(0, 0, (int) this.getSize().getWidth() - 1, (int) this.getSize().getHeight() - 1);
+	public GroupContainer(LayoutManager layout) {
+		super(layout);
+		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void reSize() {
-		// TODO Auto-generated method stub
+	public GroupContainer(boolean isDoubleBuffered) {
+		super(isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+	public GroupContainer(LayoutManager layout, boolean isDoubleBuffered) {
+		super(layout, isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+	public boolean isSelect() {
+		return isSelect;
 	}
 
 	public void setSelect(boolean isSelect) {
@@ -58,7 +65,6 @@ public class GroupContainer extends JPanel implements IFuncComponent {
 					case 5:
 						((GroupContainer) this.getComponent(i))
 								.setSelect(isSelect);
-						break;
 					case 6:
 						((DependencyLine) this.getComponent(i))
 								.setSelect(isSelect);
@@ -70,22 +76,8 @@ public class GroupContainer extends JPanel implements IFuncComponent {
 		}
 	}
 
-	public GroupContainer(LayoutManager layout) {
-		super(layout);
-		// TODO Auto-generated constructor stub
-	}
-
-	public GroupContainer(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
-	}
-
-	public GroupContainer(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
-	}
-
-	public boolean isSelect() {
-		return isSelect;
+	@Override
+	public void reSize() {
+		// TODO Auto-generated method stub
 	}
 }

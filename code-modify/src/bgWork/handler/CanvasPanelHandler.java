@@ -16,7 +16,13 @@ import Listener.CPHActionListener;
 import Pack.DragPack;
 import Pack.SendText;
 import bgWork.InitProcess;
-import mod.instance.*;
+import mod.instance.AssociationLine;
+import mod.instance.BasicClass;
+import mod.instance.CompositionLine;
+import mod.instance.DependencyLine;
+import mod.instance.GeneralizationLine;
+import mod.instance.GroupContainer;
+import mod.instance.UseCase;
 
 public class CanvasPanelHandler extends PanelHandler {
 	Vector<JPanel> members = new Vector<>();
@@ -74,11 +80,11 @@ public class CanvasPanelHandler extends PanelHandler {
 			case 1:
 			case 2:
 			case 3:
-			case 6:
+			case 4:
 				addLine(core.getCurrentFunc(), dp);
 				break;
-			case 4:
 			case 5:
+			case 6:
 				break;
 			default:
 				break;
@@ -104,18 +110,19 @@ public class CanvasPanelHandler extends PanelHandler {
 						((BasicClass) members.elementAt(i)).setSelect(true);
 						selectComp.add(members.elementAt(i));
 						isSelect = true;
+						detectClickPort(members.elementAt(i), e.getPoint());
 						break;
 					case 1:
 						((UseCase) members.elementAt(i)).setSelect(true);
 						selectComp.add(members.elementAt(i));
 						isSelect = true;
+						detectClickPort(members.elementAt(i), e.getPoint());
 						break;
-					case 5:
+					case 6:
 						Point p = e.getPoint();
 						p.x -= members.elementAt(i).getLocation().x;
 						p.y -= members.elementAt(i).getLocation().y;
-						if (groupIsSelect((GroupContainer) members.elementAt(i),
-								p)) {
+						if (groupIsSelect((GroupContainer) members.elementAt(i), p)) {
 							((GroupContainer) members.elementAt(i))
 									.setSelect(true);
 							selectComp.add(members.elementAt(i));
@@ -135,44 +142,46 @@ public class CanvasPanelHandler extends PanelHandler {
 		repaintComp();
 	}
 
-	void selectBySide(JPanel selectedJPanel, Point clickedPoint) {
-		// find side by clickedPoint on selectedJPanel (already inside the JPanel)
+	void detectClickPort(JPanel selectedInstance, Point clickedPoint) {
+		System.out.println("detectClickPort");
+		int clickedArea = new AreaDefine().getArea(selectedInstance.getLocation(), selectedInstance.getSize(),
+				clickedPoint);
 
-		/** currArea (aka. the side where clickedPoint is in the selectedJPanel) */
-		int currArea = new AreaDefine().getArea(selectedJPanel.getLocation(), selectedJPanel.getSize(), clickedPoint);
-
+		// check every instance on canvas
 		for (int i = 0; i < members.size(); i++) {
 			JPanel currJPanel = members.elementAt(i);
+			System.out.println("core.isFuncComponent(currJPanel): " + core.isFuncComponent(currJPanel));
 			switch (core.isFuncComponent(currJPanel)) {
 				case 2:
-					if (((AssociationLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
+					System.out.println("This is AssociationLine");
+					if (((AssociationLine) currJPanel).checkOnSide(selectedInstance, clickedArea)) {
 						((AssociationLine) currJPanel).setSelect(true);
 					} else {
 						((AssociationLine) currJPanel).setSelect(false);
 					}
 					break;
-				// case 3:
-				// if (((CompositionLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
-				// ((CompositionLine) currJPanel).setSelect(true);
-				// } else {
-				// ((CompositionLine) currJPanel).setSelect(false);
-				// }
-				// break;
-				// case 4:
-				// if (((GeneralizationLine) currJPanel).checkOnSide(selectedJPanel, currArea))
-				// {
-				// ((GeneralizationLine) currJPanel).setSelect(true);
-				// } else {
-				// ((GeneralizationLine) currJPanel).setSelect(false);
-				// }
-				// break;
-				// case 6:
-				// if (((DependencyLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
-				// ((DependencyLine) currJPanel).setSelect(true);
-				// } else {
-				// ((DependencyLine) currJPanel).setSelect(false);
-				// }
-				// break;
+				case 3:
+					System.out.println("This is CompositionLine");
+					if (((CompositionLine) currJPanel).checkOnSide(selectedInstance, clickedArea)) {
+						((CompositionLine) currJPanel).setSelect(true);
+					} else {
+						((CompositionLine) currJPanel).setSelect(false);
+					}
+					break;
+				case 4:
+					if (((GeneralizationLine) currJPanel).checkOnSide(selectedInstance, clickedArea)) {
+						((GeneralizationLine) currJPanel).setSelect(true);
+					} else {
+						((GeneralizationLine) currJPanel).setSelect(false);
+					}
+					break;
+				case 5:
+					if (((DependencyLine) currJPanel).checkOnSide(selectedInstance, clickedArea)) {
+						((DependencyLine) currJPanel).setSelect(true);
+					} else {
+						((DependencyLine) currJPanel).setSelect(false);
+					}
+					break;
 				default:
 					break;
 			}
@@ -200,7 +209,6 @@ public class CanvasPanelHandler extends PanelHandler {
 		return false;
 	}
 
-	// TODO: different
 	boolean selectByDrag(DragPack dp) {
 		if (isInSelect(dp.getFrom()) == true) {
 			// dragging components
@@ -368,12 +376,16 @@ public class CanvasPanelHandler extends PanelHandler {
 					case 2:
 						((GeneralizationLine) funcObj).setConnect(dPack);
 						break;
-					// TODO 3
 					case 3:
 						((DependencyLine) funcObj).setConnect(dPack);
+						break;
 					default:
 						break;
 				}
+				
+				// insert the element when we want ot add a new line
+				members.insertElementAt(funcObj, 0);
+
 				contextPanel.add(funcObj, 0);
 				break;
 		}
@@ -474,10 +486,11 @@ public class CanvasPanelHandler extends PanelHandler {
 				((GeneralizationLine) obj).setSelect(isSelect);
 				break;
 			case 5:
-				((GroupContainer) obj).setSelect(isSelect);
+				((DependencyLine) obj).setSelect(isSelect);
 				break;
 			case 6:
-				((DependencyLine) obj).setSelect(isSelect);
+				((GroupContainer) obj).setSelect(isSelect);
+				break;
 			default:
 				break;
 		}

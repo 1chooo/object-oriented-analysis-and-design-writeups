@@ -22,6 +22,7 @@ public class AssociationLine extends JPanel
 	JPanel to;
 	int toSide;
 	Point tp = new Point(0, 0);
+	int arrowSize = 6;
 	boolean isSelect = false;
 	int selectBoxSize = 5;
 	CanvasPanelHandler cph;
@@ -42,8 +43,12 @@ public class AssociationLine extends JPanel
 				fp.y - this.getLocation().y);
 		tpPrime = new Point(tp.x - this.getLocation().x,
 				tp.y - this.getLocation().y);
+		g.setColor(Color.BLACK);
 		g.drawLine(fpPrime.x, fpPrime.y, tpPrime.x, tpPrime.y);
+
 		paintArrow(g, tpPrime);
+
+		System.out.println("AssociationLine now isSelect: " + isSelect);
 		if (isSelect == true) {
 			paintSelect(g);
 		}
@@ -51,8 +56,7 @@ public class AssociationLine extends JPanel
 
 	@Override
 	public void reSize() {
-		Dimension size = new Dimension(
-				Math.abs(fp.x - tp.x) + 10,
+		Dimension size = new Dimension(Math.abs(fp.x - tp.x) + 10,
 				Math.abs(fp.y - tp.y) + 10);
 		this.setSize(size);
 		this.setLocation(Math.min(fp.x, tp.x) - 5, Math.min(fp.y, tp.y) - 5);
@@ -112,22 +116,24 @@ public class AssociationLine extends JPanel
 
 	@Override
 	public void paintSelect(Graphics gra) {
-		/*
-		 * 這邊可以用來實作點選到線條會有 HighLight
-		 * 因為原始 Code 就是會把透過 Line 相連的 Port Highlight
-		 */
-		gra.setColor(Color.BLACK);
-		gra.fillRect(fp.x, fp.y, selectBoxSize, selectBoxSize);
-		gra.fillRect(tp.x, tp.y, selectBoxSize, selectBoxSize);
-
 		Point fpPrime;
 		Point tpPrime;
+
+		// System.out.println("fp.x: " + fp.x);
+		// System.out.println("fp.y: " + fp.y);
+		// System.out.println("this.getLocation().x: " + this.getLocation().x);
+		// System.out.println("this.getLocation().y: " + this.getLocation().y);
 		fpPrime = new Point(fp.x - this.getLocation().x,
 				fp.y - this.getLocation().y);
 		tpPrime = new Point(tp.x - this.getLocation().x,
 				tp.y - this.getLocation().y);
+		// System.out.println("fpPrime.x: " + fpPrime.x);
+		// System.out.println("fpPrime.y: " + fpPrime.y);
 
 		gra.setColor(Color.RED);
+		gra.fillRect(fpPrime.x, fpPrime.y, selectBoxSize, selectBoxSize);
+		gra.fillRect(tpPrime.x, tpPrime.y, selectBoxSize, selectBoxSize);
+
 		gra.drawLine(fpPrime.x, fpPrime.y, tpPrime.x, tpPrime.y);
 	}
 
@@ -140,6 +146,10 @@ public class AssociationLine extends JPanel
 	}
 
 	public boolean checkOnSide(JPanel jPanel, int side) {
+		System.out.println("clickedArea: " + side);
+		System.out.println("fromSide: " + fromSide);
+		System.out.println("toSide: " + toSide);
+
 		if ((from == jPanel && fromSide == side) || (to == jPanel && toSide == side)) {
 			return true;
 		}
