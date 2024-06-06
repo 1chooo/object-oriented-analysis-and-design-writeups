@@ -384,7 +384,8 @@ public class CanvasPanelHandler extends PanelHandler
 					case 2:
 						((GeneralizationLine) funcObj).setConnect(dPack);
 						break;
-					case 6:
+					//TODO 3
+					case 3:
 						((DependencyLine) funcObj).setConnect(dPack);
 					default:
 						break;
