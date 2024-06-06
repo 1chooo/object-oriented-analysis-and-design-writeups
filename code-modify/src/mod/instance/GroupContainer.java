@@ -1,7 +1,6 @@
 package mod.instance;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.LayoutManager;
 import javax.swing.JPanel;
 
@@ -21,10 +20,19 @@ public class GroupContainer extends JPanel implements IFuncComponent {
 		this.core = process;
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawRect(0, 0, (int) this.getSize().getWidth() - 1, (int) this.getSize().getHeight() - 1);
+	public GroupContainer(LayoutManager layout) {
+		super(layout);
+		// TODO Auto-generated constructor stub
+	}
+
+	public GroupContainer(boolean isDoubleBuffered) {
+		super(isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+	public GroupContainer(LayoutManager layout, boolean isDoubleBuffered) {
+		super(layout, isDoubleBuffered);
+		// TODO Auto-generated constructor stub
 	}
 
 	public boolean isSelect() {
@@ -43,40 +51,29 @@ public class GroupContainer extends JPanel implements IFuncComponent {
 						((UseCase) this.getComponent(i)).setSelect(isSelect);
 						break;
 					case 2:
-						((AssociationLine) this.getComponent(i)).setSelect(isSelect);
+						((AssociationLine) this.getComponent(i))
+								.setSelect(isSelect);
 						break;
 					case 3:
-						((CompositionLine) this.getComponent(i)).setSelect(isSelect);
+						((CompositionLine) this.getComponent(i))
+								.setSelect(isSelect);
 						break;
 					case 4:
-						((GeneralizationLine) this.getComponent(i)).setSelect(isSelect);
+						((GeneralizationLine) this.getComponent(i))
+								.setSelect(isSelect);
 						break;
 					case 5:
-						((DependencyLine) this.getComponent(i)).setSelect(isSelect);
-						break;
+						((GroupContainer) this.getComponent(i))
+								.setSelect(isSelect);
 					case 6:
-						((GroupContainer) this.getComponent(i)).setSelect(isSelect);
+						((DependencyLine) this.getComponent(i))
+								.setSelect(isSelect);
 						break;
 					default:
 						break;
 				}
 			}
 		}
-	}
-
-	public GroupContainer(LayoutManager layout) {
-		super(layout);
-		// TODO Auto-generated constructor stub
-	}
-
-	public GroupContainer(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
-	}
-
-	public GroupContainer(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -22,6 +22,7 @@ public class AssociationLine extends JPanel
 	JPanel to;
 	int toSide;
 	Point tp = new Point(0, 0);
+	int arrowSize = 6;
 	boolean isSelect = false;
 	int selectBoxSize = 5;
 	CanvasPanelHandler cph;
@@ -38,13 +39,16 @@ public class AssociationLine extends JPanel
 		Point fpPrime;
 		Point tpPrime;
 		renewConnect();
-
-		fpPrime = new Point(fp.x - this.getLocation().x, fp.y - this.getLocation().y);
-		tpPrime = new Point(tp.x - this.getLocation().x, tp.y - this.getLocation().y);
+		fpPrime = new Point(fp.x - this.getLocation().x,
+				fp.y - this.getLocation().y);
+		tpPrime = new Point(tp.x - this.getLocation().x,
+				tp.y - this.getLocation().y);
 		g.setColor(Color.BLACK);
 		g.drawLine(fpPrime.x, fpPrime.y, tpPrime.x, tpPrime.y);
 
 		paintArrow(g, tpPrime);
+
+		System.out.println("AssociationLine now isSelect: " + isSelect);
 		if (isSelect == true) {
 			paintSelect(g);
 		}
@@ -69,10 +73,9 @@ public class AssociationLine extends JPanel
 		Point mtp = dPack.getTo();
 		from = (JPanel) dPack.getFromObj();
 		to = (JPanel) dPack.getToObj();
-
-		fromSide = new AreaDefine().getArea(from.getLocation(), from.getSize(), mfp);
+		fromSide = new AreaDefine().getArea(from.getLocation(), from.getSize(),
+				mfp);
 		toSide = new AreaDefine().getArea(to.getLocation(), to.getSize(), mtp);
-
 		renewConnect();
 		System.out.println("from side " + fromSide);
 		System.out.println("to side " + toSide);
@@ -91,8 +94,7 @@ public class AssociationLine extends JPanel
 
 	Point getConnectPoint(JPanel jp, int side) {
 		Point temp = new Point(0, 0);
-		Point jpLocation = this.cph.inGroup(this) ? jp.getLocation() : this.cph.getAbsLocation(jp);
-
+		Point jpLocation = cph.getAbsLocation(jp);
 		if (side == new AreaDefine().TOP) {
 			temp.x = (int) (jpLocation.x + jp.getSize().getWidth() / 2);
 			temp.y = jpLocation.y;
@@ -116,55 +118,22 @@ public class AssociationLine extends JPanel
 	public void paintSelect(Graphics gra) {
 		Point fpPrime;
 		Point tpPrime;
+
+		// System.out.println("fp.x: " + fp.x);
+		// System.out.println("fp.y: " + fp.y);
+		// System.out.println("this.getLocation().x: " + this.getLocation().x);
+		// System.out.println("this.getLocation().y: " + this.getLocation().y);
 		fpPrime = new Point(fp.x - this.getLocation().x,
 				fp.y - this.getLocation().y);
 		tpPrime = new Point(tp.x - this.getLocation().x,
 				tp.y - this.getLocation().y);
-
-		// /** adjust the from box not to overlay the base object */
-		// switch (fromSide) {
-		// 	case 0: // BOTTOM
-		// 		// need not to adjust
-		// 		break;
-		// 	case 1: // LEFT
-		// 		fpPrime.translate(-1 * selectBoxSize, -1 * selectBoxSize);
-		// 		break;
-		// 	case 2: // RIGHT
-		// 		// need not to adjust
-		// 		break;
-		// 	case 3: // TOP
-		// 		fpPrime.translate(-1 * selectBoxSize, -1 * selectBoxSize);
-		// 		break;
-		// 	default:
-		// 		break;
-		// }
-
-		// /** adjust the to box not to overlay the base object */
-		// switch (toSide) {
-		// 	case 0: // BOTTOM
-		// 		// need not to adjust
-		// 		break;
-		// 	case 1: // LEFT
-		// 		tpPrime.translate(-1 * selectBoxSize, -1 * selectBoxSize);
-		// 		break;
-		// 	case 2: // RIGHT
-		// 		// need not to adjust
-		// 		break;
-		// 	case 3: // TOP
-		// 		tpPrime.translate(-1 * selectBoxSize, -1 * selectBoxSize);
-		// 		break;
-		// 	default:
-		// 		break;
-		// }
-
-		// gra.setColor(Color.RED);
-		// gra.fillRect(fpPrime.x, fpPrime.y, selectBoxSize, selectBoxSize);
-		// gra.fillRect(tpPrime.x, tpPrime.y, selectBoxSize, selectBoxSize);
-
-		// gra.fillRect(fpPrime.x, fpPrime.y, selectBoxSize, selectBoxSize);
-		// gra.fillRect(tp.x, tp.y, selectBoxSize, selectBoxSize);
+		// System.out.println("fpPrime.x: " + fpPrime.x);
+		// System.out.println("fpPrime.y: " + fpPrime.y);
 
 		gra.setColor(Color.RED);
+		gra.fillRect(fpPrime.x, fpPrime.y, selectBoxSize, selectBoxSize);
+		gra.fillRect(tpPrime.x, tpPrime.y, selectBoxSize, selectBoxSize);
+
 		gra.drawLine(fpPrime.x, fpPrime.y, tpPrime.x, tpPrime.y);
 	}
 
@@ -177,6 +146,10 @@ public class AssociationLine extends JPanel
 	}
 
 	public boolean checkOnSide(JPanel jPanel, int side) {
+		System.out.println("clickedArea: " + side);
+		System.out.println("fromSide: " + fromSide);
+		System.out.println("toSide: " + toSide);
+
 		if ((from == jPanel && fromSide == side) || (to == jPanel && toSide == side)) {
 			return true;
 		}

@@ -87,6 +87,7 @@ public class FuncPanelHandler extends PanelHandler {
 	public void setCurrentBtn(int index) {
 		this.currIndex = index;
 		check();
+		// System.out.println(currIndex);
 	}
 
 	public JPanel getCurrentFunc() {

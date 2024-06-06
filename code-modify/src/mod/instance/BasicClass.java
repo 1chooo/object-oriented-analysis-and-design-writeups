@@ -91,7 +91,7 @@ public class BasicClass extends JPanel implements IFuncComponent, IClassPainter 
 	}
 
 	public void setSelect(boolean isSelect) {
-		System.out.println(isSelect);
+		System.out.println("BasicClass setSelect to: " + isSelect);
 		this.isSelect = isSelect;
 	}
 
