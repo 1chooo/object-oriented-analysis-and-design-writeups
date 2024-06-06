@@ -18,14 +18,12 @@ import Pack.SendText;
 import bgWork.InitProcess;
 import mod.instance.*;
 
-public class CanvasPanelHandler extends PanelHandler
-{
-	Vector <JPanel>	members		= new Vector <>();
-	Vector <JPanel>	selectComp	= new Vector <>();
-	int				boundShift	= 10;
+public class CanvasPanelHandler extends PanelHandler {
+	Vector<JPanel> members = new Vector<>();
+	Vector<JPanel> selectComp = new Vector<>();
+	int boundShift = 10;
 
-	public CanvasPanelHandler(JPanel Container, InitProcess process)
-	{
+	public CanvasPanelHandler(JPanel Container, InitProcess process) {
 		super(Container, process);
 		boundDistance = 10;
 		initContextPanel();
@@ -33,8 +31,7 @@ public class CanvasPanelHandler extends PanelHandler
 	}
 
 	@Override
-	void initContextPanel()
-	{
+	void initContextPanel() {
 		JPanel fphContextPanel = core.getFuncPanelHandler().getContectPanel();
 		contextPanel = new JPanel();
 		contextPanel.setBounds(
@@ -49,15 +46,18 @@ public class CanvasPanelHandler extends PanelHandler
 	}
 
 	@Override
-	public void ActionPerformed(MouseEvent e)
-	{
-		switch (core.getCurrentFuncIndex())
-		{
+	public void ActionPerformed(MouseEvent e) {
+		switch (core.getCurrentFuncIndex()) {
 			case 0:
 				selectByClick(e);
 				break;
+			case 1:
+			case 2:
+			case 3:
 			case 4:
+				break;
 			case 5:
+			case 6:
 				addObject(core.getCurrentFunc(), e.getPoint());
 				break;
 			default:
@@ -66,10 +66,8 @@ public class CanvasPanelHandler extends PanelHandler
 		repaintComp();
 	}
 
-	public void ActionPerformed(DragPack dp)
-	{
-		switch (core.getCurrentFuncIndex())
-		{
+	public void ActionPerformed(DragPack dp) {
+		switch (core.getCurrentFuncIndex()) {
 			case 0:
 				selectByDrag(dp);
 				break;
@@ -88,26 +86,20 @@ public class CanvasPanelHandler extends PanelHandler
 		repaintComp();
 	}
 
-	public void repaintComp()
-	{
-		for (int i = 0; i < members.size(); i ++)
-		{
+	public void repaintComp() {
+		for (int i = 0; i < members.size(); i++) {
 			members.elementAt(i).repaint();
 		}
 		contextPanel.updateUI();
 	}
 
-	void selectByClick(MouseEvent e)
-	{
+	void selectByClick(MouseEvent e) {
 		boolean isSelect = false;
-		selectComp = new Vector <>();
-		for (int i = 0; i < members.size(); i ++)
-		{
+		selectComp = new Vector<>();
+		for (int i = 0; i < members.size(); i++) {
 			if (isInside(members.elementAt(i), e.getPoint()) == true
-					&& isSelect == false)
-			{
-				switch (core.isFuncComponent(members.elementAt(i)))
-				{
+					&& isSelect == false) {
+				switch (core.isFuncComponent(members.elementAt(i))) {
 					case 0:
 						((BasicClass) members.elementAt(i)).setSelect(true);
 						selectComp.add(members.elementAt(i));
@@ -123,15 +115,12 @@ public class CanvasPanelHandler extends PanelHandler
 						p.x -= members.elementAt(i).getLocation().x;
 						p.y -= members.elementAt(i).getLocation().y;
 						if (groupIsSelect((GroupContainer) members.elementAt(i),
-								p))
-						{
+								p)) {
 							((GroupContainer) members.elementAt(i))
 									.setSelect(true);
 							selectComp.add(members.elementAt(i));
 							isSelect = true;
-						}
-						else
-						{
+						} else {
 							((GroupContainer) members.elementAt(i))
 									.setSelect(false);
 						}
@@ -139,9 +128,7 @@ public class CanvasPanelHandler extends PanelHandler
 					default:
 						break;
 				}
-			}
-			else
-			{
+			} else {
 				setSelectAllType(members.elementAt(i), false);
 			}
 		}
@@ -165,55 +152,47 @@ public class CanvasPanelHandler extends PanelHandler
 					}
 					break;
 				// case 3:
-				// 	if (((CompositionLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
-				// 		((CompositionLine) currJPanel).setSelect(true);
-				// 	} else {
-				// 		((CompositionLine) currJPanel).setSelect(false);
-				// 	}
-				// 	break;
+				// if (((CompositionLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
+				// ((CompositionLine) currJPanel).setSelect(true);
+				// } else {
+				// ((CompositionLine) currJPanel).setSelect(false);
+				// }
+				// break;
 				// case 4:
-				// 	if (((GeneralizationLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
-				// 		((GeneralizationLine) currJPanel).setSelect(true);
-				// 	} else {
-				// 		((GeneralizationLine) currJPanel).setSelect(false);
-				// 	}
-				// 	break;
+				// if (((GeneralizationLine) currJPanel).checkOnSide(selectedJPanel, currArea))
+				// {
+				// ((GeneralizationLine) currJPanel).setSelect(true);
+				// } else {
+				// ((GeneralizationLine) currJPanel).setSelect(false);
+				// }
+				// break;
 				// case 6:
-				// 	if (((DependencyLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
-				// 		((DependencyLine) currJPanel).setSelect(true);
-				// 	} else {
-				// 		((DependencyLine) currJPanel).setSelect(false);
-				// 	}
-				// 	break;
+				// if (((DependencyLine) currJPanel).checkOnSide(selectedJPanel, currArea)) {
+				// ((DependencyLine) currJPanel).setSelect(true);
+				// } else {
+				// ((DependencyLine) currJPanel).setSelect(false);
+				// }
+				// break;
 				default:
 					break;
 			}
 		}
 	}
 
-	boolean groupIsSelect(GroupContainer container, Point point)
-	{
-		for (int i = 0; i < container.getComponentCount(); i ++)
-		{
-			if (core.isGroupContainer(container.getComponent(i)))
-			{
+	boolean groupIsSelect(GroupContainer container, Point point) {
+		for (int i = 0; i < container.getComponentCount(); i++) {
+			if (core.isGroupContainer(container.getComponent(i))) {
 				point.x -= container.getComponent(i).getLocation().x;
 				point.y -= container.getComponent(i).getLocation().y;
 				if (groupIsSelect((GroupContainer) container.getComponent(i),
-						point) == true)
-				{
+						point) == true) {
 					return true;
-				}
-				else
-				{
+				} else {
 					point.x += container.getComponent(i).getLocation().x;
 					point.y += container.getComponent(i).getLocation().y;
 				}
-			}
-			else if (core.isJPanel(container.getComponent(i)))
-			{
-				if (isInside((JPanel) container.getComponent(i), point))
-				{
+			} else if (core.isJPanel(container.getComponent(i))) {
+				if (isInside((JPanel) container.getComponent(i), point)) {
 					return true;
 				}
 			}
@@ -221,37 +200,30 @@ public class CanvasPanelHandler extends PanelHandler
 		return false;
 	}
 
-	boolean selectByDrag(DragPack dp)
-	{
-		if (isInSelect(dp.getFrom()) == true)
-		{
+	// TODO: different
+	boolean selectByDrag(DragPack dp) {
+		if (isInSelect(dp.getFrom()) == true) {
 			// dragging components
 			Dimension shift = new Dimension(dp.getTo().x - dp.getFrom().x,
 					dp.getTo().y - dp.getFrom().y);
-			for (int i = 0; i < selectComp.size(); i ++)
-			{
+			for (int i = 0; i < selectComp.size(); i++) {
 				JPanel jp = selectComp.elementAt(i);
 				jp.setLocation(jp.getLocation().x + shift.width,
 						jp.getLocation().y + shift.height);
-				if (jp.getLocation().x < 0)
-				{
+				if (jp.getLocation().x < 0) {
 					jp.setLocation(0, jp.getLocation().y);
 				}
-				if (jp.getLocation().y < 0)
-				{
+				if (jp.getLocation().y < 0) {
 					jp.setLocation(jp.getLocation().x, 0);
 				}
 			}
 			return true;
 		}
-		if (dp.getFrom().x > dp.getTo().x && dp.getFrom().y > dp.getTo().y)
-		{
+		if (dp.getFrom().x > dp.getTo().x && dp.getFrom().y > dp.getTo().y) {
 			// drag right down from to left up
 			groupInversSelect(dp);
 			return true;
-		}
-		else if (dp.getFrom().x < dp.getTo().x && dp.getFrom().y < dp.getTo().y)
-		{
+		} else if (dp.getFrom().x < dp.getTo().x && dp.getFrom().y < dp.getTo().y) {
 			// drag from left up to right down
 			groupSelect(dp);
 			return true;
@@ -259,10 +231,8 @@ public class CanvasPanelHandler extends PanelHandler
 		return false;
 	}
 
-	public void setGroup()
-	{
-		if (selectComp.size() > 1)
-		{
+	public void setGroup() {
+		if (selectComp.size() > 1) {
 			GroupContainer gContainer = new GroupContainer(core);
 			gContainer.setVisible(true);
 			Point p1 = new Point(selectComp.elementAt(0).getLocation().x,
@@ -270,32 +240,26 @@ public class CanvasPanelHandler extends PanelHandler
 			Point p2 = new Point(selectComp.elementAt(0).getLocation().x,
 					selectComp.elementAt(0).getLocation().y);
 			Point testP;
-			for (int i = 0; i < selectComp.size(); i ++)
-			{
+			for (int i = 0; i < selectComp.size(); i++) {
 				testP = selectComp.elementAt(i).getLocation();
-				if (p1.x > testP.x)
-				{
+				if (p1.x > testP.x) {
 					p1.x = testP.x;
 				}
-				if (p1.y > testP.y)
-				{
+				if (p1.y > testP.y) {
 					p1.y = testP.y;
 				}
-				if (p2.x < testP.x + selectComp.elementAt(i).getSize().width)
-				{
+				if (p2.x < testP.x + selectComp.elementAt(i).getSize().width) {
 					p2.x = testP.x + selectComp.elementAt(i).getSize().width;
 				}
-				if (p2.y < testP.y + selectComp.elementAt(i).getSize().height)
-				{
+				if (p2.y < testP.y + selectComp.elementAt(i).getSize().height) {
 					p2.y = testP.y + selectComp.elementAt(i).getSize().height;
 				}
 			}
-			p1.x --;
-			p1.y --;
+			p1.x--;
+			p1.y--;
 			gContainer.setLocation(p1);
 			gContainer.setSize(p2.x - p1.x + 2, p2.y - p1.y + 2);
-			for (int i = 0; i < selectComp.size(); i ++)
-			{
+			for (int i = 0; i < selectComp.size(); i++) {
 				JPanel temp = selectComp.elementAt(i);
 				removeComponent(temp);
 				gContainer.add(temp, i);
@@ -303,25 +267,21 @@ public class CanvasPanelHandler extends PanelHandler
 						temp.getLocation().y - p1.y);
 			}
 			addComponent(gContainer);
-			selectComp = new Vector <>();
+			selectComp = new Vector<>();
 			selectComp.add(gContainer);
 			repaintComp();
 		}
 	}
 
-	public void setUngroup()
-	{
+	public void setUngroup() {
 		int size = selectComp.size();
-		for (int i = 0; i < size; i ++)
-		{
-			if (core.isGroupContainer(selectComp.elementAt(i)))
-			{
+		for (int i = 0; i < size; i++) {
+			if (core.isGroupContainer(selectComp.elementAt(i))) {
 				GroupContainer gContainer = (GroupContainer) selectComp
 						.elementAt(i);
 				Component temp;
 				int j = 0;
-				while (gContainer.getComponentCount() > 0)
-				{
+				while (gContainer.getComponentCount() > 0) {
 					temp = gContainer.getComponent(0);
 					temp.setLocation(
 							temp.getLocation().x + gContainer.getLocation().x,
@@ -329,7 +289,7 @@ public class CanvasPanelHandler extends PanelHandler
 					addComponent((JPanel) temp, j);
 					selectComp.add((JPanel) temp);
 					gContainer.remove(temp);
-					j ++;
+					j++;
 				}
 				removeComponent(gContainer);
 				selectComp.remove(gContainer);
@@ -338,87 +298,67 @@ public class CanvasPanelHandler extends PanelHandler
 		}
 	}
 
-	void groupSelect(DragPack dp)
-	{
+	void groupSelect(DragPack dp) {
 		JPanel jp = new JPanel();
 		jp.setLocation(dp.getFrom());
 		jp.setSize(Math.abs(dp.getTo().x - dp.getFrom().x),
 				Math.abs(dp.getTo().y - dp.getFrom().x));
-		selectComp = new Vector <>();
-		for (int i = 0; i < members.size(); i ++)
-		{
-			if (isInside(jp, members.elementAt(i)) == true)
-			{
+		selectComp = new Vector<>();
+		for (int i = 0; i < members.size(); i++) {
+			if (isInside(jp, members.elementAt(i)) == true) {
 				selectComp.add(members.elementAt(i));
 				setSelectAllType(members.elementAt(i), true);
-			}
-			else
-			{
+			} else {
 				setSelectAllType(members.elementAt(i), false);
 			}
 		}
 	}
 
-	void groupInversSelect(DragPack dp)
-	{
+	void groupInversSelect(DragPack dp) {
 		JPanel jp = new JPanel();
 		jp.setLocation(dp.getTo());
 		jp.setSize(Math.abs(dp.getTo().x - dp.getFrom().x),
 				Math.abs(dp.getTo().y - dp.getFrom().x));
-		selectComp = new Vector <>();
-		for (int i = 0; i < members.size(); i ++)
-		{
-			if (isInside(jp, members.elementAt(i)) == false)
-			{
+		selectComp = new Vector<>();
+		for (int i = 0; i < members.size(); i++) {
+			if (isInside(jp, members.elementAt(i)) == false) {
 				selectComp.add(members.elementAt(i));
 				setSelectAllType(members.elementAt(i), true);
-			}
-			else
-			{
+			} else {
 				setSelectAllType(members.elementAt(i), false);
 			}
 		}
 	}
 
-	boolean isInSelect(Point point)
-	{
-		for (int i = 0; i < selectComp.size(); i ++)
-		{
-			if (isInside(selectComp.elementAt(i), point) == true)
-			{
+	boolean isInSelect(Point point) {
+		for (int i = 0; i < selectComp.size(); i++) {
+			if (isInside(selectComp.elementAt(i), point) == true) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	void addLine(JPanel funcObj, DragPack dPack)
-	{
-		for (int i = 0; i < members.size(); i ++)
-		{
-			if (isInside(members.elementAt(i), dPack.getFrom()) == true)
-			{
+	void addLine(JPanel funcObj, DragPack dPack) {
+		for (int i = 0; i < members.size(); i++) {
+			if (isInside(members.elementAt(i), dPack.getFrom()) == true) {
 				dPack.setFromObj(members.elementAt(i));
 			}
-			if (isInside(members.elementAt(i), dPack.getTo()) == true)
-			{
+			if (isInside(members.elementAt(i), dPack.getTo()) == true) {
 				dPack.setToObj(members.elementAt(i));
 			}
 		}
 		if (dPack.getFromObj() == dPack.getToObj()
 				|| dPack.getFromObj() == contextPanel
-				|| dPack.getToObj() == contextPanel)
-		{
+				|| dPack.getToObj() == contextPanel) {
 			return;
 		}
-		switch (members.size())
-		{
+		switch (members.size()) {
 			case 0:
 			case 1:
 				break;
 			default:
-				switch (core.isLine(funcObj))
-				{
+				switch (core.isLine(funcObj)) {
 					case 0:
 						((AssociationLine) funcObj).setConnect(dPack);
 						break;
@@ -428,7 +368,7 @@ public class CanvasPanelHandler extends PanelHandler
 					case 2:
 						((GeneralizationLine) funcObj).setConnect(dPack);
 						break;
-					//TODO 3
+					// TODO 3
 					case 3:
 						((DependencyLine) funcObj).setConnect(dPack);
 					default:
@@ -439,14 +379,10 @@ public class CanvasPanelHandler extends PanelHandler
 		}
 	}
 
-	void addObject(JPanel funcObj, Point point)
-	{
-		if (members.size() > 0)
-		{
+	void addObject(JPanel funcObj, Point point) {
+		if (members.size() > 0) {
 			members.insertElementAt(funcObj, 0);
-		}
-		else
-		{
+		} else {
 			members.add(funcObj);
 		}
 		members.elementAt(0).setLocation(point);
@@ -454,54 +390,43 @@ public class CanvasPanelHandler extends PanelHandler
 		contextPanel.add(members.elementAt(0), 0);
 	}
 
-	public boolean isInside(JPanel container, Point point)
-	{
+	public boolean isInside(JPanel container, Point point) {
 		Point cLocat = container.getLocation();
 		Dimension cSize = container.getSize();
-		if (point.x >= cLocat.x && point.y >= cLocat.y)
-		{
+		if (point.x >= cLocat.x && point.y >= cLocat.y) {
 			if (point.x <= cLocat.x + cSize.width
-					&& point.y <= cLocat.y + cSize.height)
-			{
+					&& point.y <= cLocat.y + cSize.height) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean isInside(JPanel container, JPanel test)
-	{
+	public boolean isInside(JPanel container, JPanel test) {
 		Point cLocat = container.getLocation();
 		Dimension cSize = container.getSize();
 		Point tLocat = test.getLocation();
 		Dimension tSize = test.getSize();
-		if (cLocat.x <= tLocat.x && cLocat.y <= tLocat.y)
-		{
+		if (cLocat.x <= tLocat.x && cLocat.y <= tLocat.y) {
 			if (cLocat.x + cSize.width >= tLocat.x + tSize.width
-					&& cLocat.y + cSize.height >= tLocat.y + tSize.height)
-			{
+					&& cLocat.y + cSize.height >= tLocat.y + tSize.height) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public JPanel getSingleSelectJP()
-	{
-		if (selectComp.size() == 1)
-		{
+	public JPanel getSingleSelectJP() {
+		if (selectComp.size() == 1) {
 			return selectComp.elementAt(0);
 		}
 		return null;
 	}
 
-	public void setContext(SendText tr)
-	{
+	public void setContext(SendText tr) {
 		System.out.println(tr.getText());
-		try
-		{
-			switch (core.isClass(tr.getDest()))
-			{
+		try {
+			switch (core.isClass(tr.getDest())) {
 				case 0:
 					((BasicClass) tr.getDest()).setText(tr.getText());
 					break;
@@ -511,35 +436,28 @@ public class CanvasPanelHandler extends PanelHandler
 				default:
 					break;
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.err.println("CPH error");
 		}
 	}
 
-	void addComponent(JPanel comp)
-	{
+	void addComponent(JPanel comp) {
 		contextPanel.add(comp, 0);
 		members.insertElementAt(comp, 0);
 	}
 
-	void addComponent(JPanel comp, int index)
-	{
+	void addComponent(JPanel comp, int index) {
 		contextPanel.add(comp, index);
 		members.insertElementAt(comp, index);
 	}
 
-	public void removeComponent(JPanel comp)
-	{
+	public void removeComponent(JPanel comp) {
 		contextPanel.remove(comp);
 		members.remove(comp);
 	}
 
-	void setSelectAllType(Object obj, boolean isSelect)
-	{
-		switch (core.isFuncComponent(obj))
-		{
+	void setSelectAllType(Object obj, boolean isSelect) {
+		switch (core.isFuncComponent(obj)) {
 			case 0:
 				((BasicClass) obj).setSelect(isSelect);
 				break;
@@ -565,11 +483,9 @@ public class CanvasPanelHandler extends PanelHandler
 		}
 	}
 
-	public Point getAbsLocation(Container panel)
-	{
+	public Point getAbsLocation(Container panel) {
 		Point location = panel.getLocation();
-		while (panel.getParent() != contextPanel)
-		{
+		while (panel.getParent() != contextPanel) {
 			panel = panel.getParent();
 			location.x += panel.getLocation().x;
 			location.y += panel.getLocation().y;

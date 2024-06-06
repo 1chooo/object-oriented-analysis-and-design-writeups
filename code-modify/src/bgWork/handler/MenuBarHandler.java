@@ -13,34 +13,28 @@ import Pack.TextRequest;
 import bgWork.Core;
 import bgWork.InitProcess;
 
-public class MenuBarHandler
-{
-	Core						core;
-	InitProcess					process;
-	Vector <Vector <String>>	menuList	= new Vector <>();
+public class MenuBarHandler {
+	Core core;
+	InitProcess process;
+	Vector<Vector<String>> menuList = new Vector<>();
 
-	public MenuBarHandler(JFrame container, InitProcess process)
-	{
-		if (process.isCore(process))
-		{
+	public MenuBarHandler(JFrame container, InitProcess process) {
+		if (process.isCore(process)) {
 			core = (Core) process;
-		}
-		else
-		{
+		} else {
 			this.process = process;
 		}
 		initMenuList();
 		container.setJMenuBar(initMenuBar());
 	}
 
-	void initMenuList()
-	{
-		Vector <String> temp = new Vector <>();
+	void initMenuList() {
+		Vector<String> temp = new Vector<>();
 		temp.add("File");
 		temp.add("New Window");
 		temp.add("Exit");
 		menuList.addElement(temp);
-		temp = new Vector <>();
+		temp = new Vector<>();
 		temp.add("Edit");
 		temp.add("Change Object Name");
 		temp.add("Group");
@@ -48,16 +42,13 @@ public class MenuBarHandler
 		menuList.addElement(temp);
 	}
 
-	JMenuBar initMenuBar()
-	{
+	JMenuBar initMenuBar() {
 		JMenuBar jmb = new JMenuBar();
 		jmb.setVisible(true);
 		JMenu menu[] = new JMenu[menuList.size()];
-		for (int i = 0; i < menu.length; i ++)
-		{
+		for (int i = 0; i < menu.length; i++) {
 			menu[i] = new JMenu(menuList.elementAt(i).elementAt(0));
-			for (int j = 1; j < menuList.elementAt(i).size(); j ++)
-			{
+			for (int j = 1; j < menuList.elementAt(i).size(); j++) {
 				JMenuItem jmi = new JMenuItem(
 						menuList.elementAt(i).elementAt(j));
 				jmi.addActionListener(new MenuBarListener(this));
@@ -68,29 +59,23 @@ public class MenuBarHandler
 		return jmb;
 	}
 
-	public void ActionPerformed(ActionEvent e)
-	{
+	public void ActionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		int cmdGroup = -1;
 		int cmdIndex = -1;
-		for (int i = 0; i < menuList.size(); i ++)
-		{
-			for (int j = 1; j < menuList.elementAt(i).size(); j ++)
-			{
-				if (cmd == menuList.elementAt(i).elementAt(j))
-				{
+		for (int i = 0; i < menuList.size(); i++) {
+			for (int j = 1; j < menuList.elementAt(i).size(); j++) {
+				if (cmd == menuList.elementAt(i).elementAt(j)) {
 					cmdGroup = i;
 					cmdIndex = j;
 					break;
 				}
 			}
-			if (cmdGroup > -1)
-			{
+			if (cmdGroup > -1) {
 				break;
 			}
 		}
-		switch (cmdGroup)
-		{
+		switch (cmdGroup) {
 			case 0:
 				cmdGroup_File(cmdIndex);
 				break;
@@ -102,10 +87,8 @@ public class MenuBarHandler
 		}
 	}
 
-	void cmdGroup_File(int index)
-	{
-		switch (index)
-		{
+	void cmdGroup_File(int index) {
+		switch (index) {
 			case 1:
 				core.fork();
 			case 2:
@@ -116,10 +99,8 @@ public class MenuBarHandler
 		}
 	}
 
-	void cmdGroup_Edit(int index)
-	{
-		switch (index)
-		{
+	void cmdGroup_Edit(int index) {
+		switch (index) {
 			case 1:
 				printCmd(1, index);
 				TextRequest tr = new TextRequest("", this,
@@ -139,8 +120,7 @@ public class MenuBarHandler
 		}
 	}
 
-	void printCmd(int group, int index)
-	{
+	void printCmd(int group, int index) {
 		System.out.println(menuList.elementAt(group).elementAt(index));
 	}
 }
