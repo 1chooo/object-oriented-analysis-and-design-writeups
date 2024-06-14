@@ -347,16 +347,16 @@ Table 3 Supplier Relation
     正新  米其林 1000  中壢    500
 ```
 
-## Exercise
+## Exercise <sup>[Homework - Lab 09](../../labs/08-data-oriented-model/README.md#homework---lab-09)</sup>
 
-你現在是一個系統分析師,你的任務是分析ㄧ個校務行政系統.請畫出此系統的UML 圖, 以下是概略的需求分析
+你現在是一個系統分析師，你的任務是分析一個校務行政系統。請畫出此系統的 UML 圖，以下是概略的需求分析
 
-- 一個老師可以敎許多門課,
-- 每一個學生可以自行選修課來修,
-- 目前的開授的科目有英文,數學,物理,化學,國文.
-- 每一個開課的科目包含授課時數,授課教室,授課時段,授課年級與班級以及授課老師等資訊.
-- 學生的學籍包含身分證號碼,學號,年級,姓名,住址
-- 每個學生都會被編到一個班級上課,由一位老師擔任導師
+- 一個老師可以敎許多門課
+- 每一個學生可以自行選修課來修
+- 目前的開授的科目有英文, 數學, 物理, 化學, 國文。
+- 每一個開課的科目包含授課時數, 授課教室, 授課時段, 授課年級與班級以及授課老師等資訊。
+- 學生的學籍包含身分證號碼, 學號, 年級, 姓名, 住址
+- 每個學生都會被編到一個班級上課，由一位老師擔任導師
 
 You are a system analyst and you are responsible for analyze an e-school system. Please draw UML diagram for the following requirement 
 
