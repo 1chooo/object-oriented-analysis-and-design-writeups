@@ -1,11 +1,12 @@
-# Material 01.5 Pointer, Reference  <!-- omit from toc --> 
+# Material 01.5 Pointer, Reference<!-- omit from toc --> 
 
-**Table of Contents**
+## Table of Contents<!-- omit from toc -->
 - [Deference in `C`](#deference-in-c)
 - [How pointer and dereference are implemented](#how-pointer-and-dereference-are-implemented)
 - [(WRONG )How to swap two variables in C? (pass by VALUE)](#wrong-how-to-swap-two-variables-in-c-pass-by-value)
 - [How to swap two variables in C? (pass by REFERENCE)](#how-to-swap-two-variables-in-c-pass-by-reference)
 - [How to swap two variables in C++? (pass by REFERENCE)](#how-to-swap-two-variables-in-c-pass-by-reference-1)
+  - [object](#object)
 - [Java's pass by REFERENCE](#javas-pass-by-reference)
 - [C++'s pass by REFERENCE](#cs-pass-by-reference)
 - [(PRACTICE) How to swap two variables in pass by REFERENCE in Java?](#practice-how-to-swap-two-variables-in-pass-by-reference-in-java)
@@ -37,9 +38,16 @@ p->value; // same as above
 
 `p` 本來就放個門牌，麻煩 CPU 拿著這個門牌再走幾步去把 value 拿出來。
 
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
+
 ## How pointer and dereference are implemented
 
 inderect addressing mode
+
 ```asm
 .data
 bVal BYTE 10
@@ -48,6 +56,12 @@ mov esi, bVal         ;  ESI = 10
 mov esi, OFFSET bVal  ;  ESI = 00404000h  address of bVal 
 mov esi, [esi]        ; ESI = 10 ;  load from bVal
 ```
+
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
 
 ## (WRONG )How to swap two variables in C? (pass by VALUE)
 
@@ -83,6 +97,12 @@ in user system stack, it looks like this:
 
 Therefore the problem is that the `swap` function is not changing the original `x` and `y` in the `main` function.
 
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
+
 ## How to swap two variables in C? (pass by REFERENCE)
 
 ```c
@@ -104,6 +124,12 @@ void swap(char *a, char *b) {
 }
 ```
 
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
+
 ## How to swap two variables in C++? (pass by REFERENCE)
 
 ```cpp
@@ -124,7 +150,8 @@ void swap(char &a, char &b) {
 }
 ```
 
-object: 
+### object
+
 ```cpp
 main() {
     A x = 10;
@@ -150,7 +177,6 @@ main() {
     A x = 10;
     A y = 5;
 
-
     swap(&x, &y);
     print x; // 5
     print y; // 10
@@ -163,6 +189,12 @@ void swap(A *a, A *b) {
     b->value = temp;
 }
 ```
+
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
 
 ## Java's pass by REFERENCE
 
@@ -178,12 +210,21 @@ p = new T(); // p points to the address of T
 ```
 
 in memory, it looks like this:
+
+```mermaid
+classDiagram
+    class T {
+        int value
+        char b
+    }
+    T <-- p : points
 ```
-   T p;             p = new T();
-+--------+           +--------+
-|   P    |  -------> |    T   |
-+--------+           +--------+
-```
+
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
 
 ## C++'s pass by REFERENCE
 
@@ -219,6 +260,12 @@ p = new T();
 dosomething(p); // pass by reference
 ```
 
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
+
 ## (PRACTICE) How to swap two variables in pass by REFERENCE in Java?
 
 ```java
@@ -243,3 +290,9 @@ void swap(T a, T b) {
     b.value = temp;
 }
 ```
+
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
