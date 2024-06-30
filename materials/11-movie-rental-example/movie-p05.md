@@ -152,3 +152,19 @@
 151 }
 152
 ```
+
+> [!NOTE]
+>
+> 開始有問題了，用 line 49 又用了一次 r1
+
+> [!NOTE]
+> Take a look at `print_statement`
+> 
+> Image a future change – customer wants a new function called htmlStatement()
+> 1. You will find you cannot reuse any code in p05 formally. 
+> 2. Eventually, you copy-paste statement() and modify it into a new htmlStatement()
+> 3. Some time in the future, you need to change the rule of computing frequent renter points
+> 
+> You need to change two places and maintain the consistency at two places.
+> 
+> 👉🏻 139 - 149 需要 copy paste
