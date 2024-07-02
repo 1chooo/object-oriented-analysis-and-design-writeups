@@ -1,4 +1,4 @@
-# Material 01 - Classes and Object  <!-- omit from toc --> 
+# Material 01 - Classes and Object<!-- omit from toc --> 
 
 **Table of Contents**
 - [What is a class ?](#what-is-a-class-)
@@ -17,6 +17,12 @@
 - When you define a class X，you pass another X.h to be included by others.
 - Without X.obj, it is still possible for others to compile his module.
 - In C++, a class is just like a primitive type INT, CHAR
+
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
 
 ## What is an object?
 
@@ -44,6 +50,12 @@ main() {
 
 - 規格 class
 - 定義 code (behavior)
+
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
 
 ## 執行檔案載入記憶體中的位置
 
@@ -81,6 +93,12 @@ Just like C, you have 3 places to place your object
 - stack (life time goes with functions)
 - heap (life time vary)
 
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
+
 ## Exercise
 
 What's wrong with the following code?
@@ -108,7 +126,11 @@ Car* foo() {
 
 在這個修正版本中，返回的是一個指向堆上動態分配的`Car`對象的指針，而不是指向本地變量。這樣可以確保在函數返回後該對象仍然存在，並且指針仍然有效。當不再需要時，應該通過`delete`來釋放內存，以避免內存泄漏。
 
----
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
 
 ## Dynamic Memory Allocation
 
@@ -141,6 +163,11 @@ delete theMoney;
 delete letter; 
 ```
 
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
 
 ## Dynamic allocated array
 
@@ -169,6 +196,11 @@ delete[] pt;
 delete[] myBills;   // chapter11() will also release the memory :-)  
 ```
 
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
 
 ## (UNKNOWN) Copy constructor and `=` operator [LAB 03](../../lab/01_classes_and_object/README.md#lab-03)
 
@@ -221,3 +253,10 @@ int main()
 
 
 [^1]: [系统调用与内存管理 (`sbrk、brk、mmap、munmap`)](https://blog.csdn.net/Apollon_krj/article/details/54565768)
+
+
+<div align="right">
+    <p>
+        <a href="#table-of-contents" target="_blank"><b>☝🏼 [Back to TOC]</b></a> 
+    </p>
+</div>
