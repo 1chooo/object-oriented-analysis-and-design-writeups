@@ -571,4 +571,4 @@ direction LR
 ### Example: "Logic Circuit Simulator"
 
 
-![alt text](image.png)
+![alt text](logic_circuit_simulator.png)
