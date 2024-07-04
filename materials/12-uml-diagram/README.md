@@ -530,10 +530,9 @@ direction LR
     Main *-- "1" IntArray
     IntArray --> "1" Sorter
     Sorter ..> IntArray
-
-    InsertionSorter ..|> D[ ]:::empty
-    QuickSorter ..|> D[ ]:::empty
-    SelectionSorter ..|> D[ ]:::empty
+    InsertionSorter ..|> Sorter
+    QuickSorter ..|> Sorter
+    SelectionSorter ..|> Sorter
 
     class SelectionSorter {
         + void Sort(IntArray& values)
